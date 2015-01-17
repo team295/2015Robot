@@ -4,6 +4,7 @@ import com.spcrobotics.Robot;
 import com.spcrobotics.RobotMap;
 import com.spcrobotics.commands.DriveSimpleArcade;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -17,10 +18,10 @@ public class Drivetrain extends Subsystem {
 	
 	public Drivetrain() {
 		talons = new Talon[4];
-		talons.clone()[0] = RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR;
-		talons.clone()[1] = RobotMap.DRIVETRAIN_LEFTBACK_MOTOR;
-		talons.clone()[2] = RobotMap.DRIVETRAIN_RIGHTFRONT_MOTOR;
-		talons.clone()[3] = RobotMap.DRIVETRAIN_RIGHTBACK_MOTOR;
+		talons[0] = RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR;
+		talons[1] = RobotMap.DRIVETRAIN_LEFTBACK_MOTOR;
+		talons[2] = RobotMap.DRIVETRAIN_RIGHTFRONT_MOTOR;
+		talons[3] = RobotMap.DRIVETRAIN_RIGHTBACK_MOTOR;
 		
 		drive = RobotMap.DRIVETRAIN_DRIVE;
 		System.out.println("Is drive null? " + (drive == null));
@@ -48,11 +49,7 @@ public class Drivetrain extends Subsystem {
 	
 	public void stop() {
 		for (Talon t : talons) {
-			try {
-				t.set(0.0);
-			} catch (NullPointerException ignored) {
-				// Talons not initialized yet
-			}
+			t.set(0.0);
 		}
 	}
 
