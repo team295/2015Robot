@@ -1,0 +1,59 @@
+package com.spcrobotics.subsystems;
+
+import com.spcrobotics.Robot;
+import com.spcrobotics.RobotMap;
+import com.spcrobotics.commands.DriveSimpleArcade;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.command.Subsystem;
+
+public class Drivetrain extends Subsystem {
+
+	Talon[] talons;
+	RobotDrive drive;
+	
+	public Drivetrain() {
+		talons = new Talon[4];
+		talons.clone()[0] = RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR;
+		talons.clone()[1] = RobotMap.DRIVETRAIN_LEFTBACK_MOTOR;
+		talons.clone()[2] = RobotMap.DRIVETRAIN_RIGHTFRONT_MOTOR;
+		talons.clone()[3] = RobotMap.DRIVETRAIN_RIGHTBACK_MOTOR;
+		
+		drive = RobotMap.DRIVETRAIN_DRIVE;
+		System.out.println("Is drive null? " + (drive == null));
+	};
+
+	@Override
+	protected void initDefaultCommand() {
+		setDefaultCommand(new DriveSimpleArcade());
+	}
+	
+	public void tankDrive(Joystick leftJoystick, Joystick rightJoystick) {
+		drive.tankDrive(leftJoystick, rightJoystick);
+	}
+	
+	public void arcadeDrive() {
+		drive.arcadeDrive(Robot.oi.joystickDriver);
+	}
+	
+	public void arcadeDrive(Joystick movJoystick, AxisType movAxis,
+	                        Joystick rotJoystick, AxisType rotAxis) {
+		double mov = movJoystick.getAxis(movAxis);
+		double rot = rotJoystick.getAxis(rotAxis);
+		drive.arcadeDrive(mov, rot);
+	}
+	
+	public void stop() {
+		for (Talon t : talons) {
+			try {
+				t.set(0.0);
+			} catch (NullPointerException ignored) {
+				// Talons not initialized yet
+			}
+		}
+	}
+
+}
