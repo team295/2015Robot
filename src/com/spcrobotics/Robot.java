@@ -4,27 +4,28 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import com.spcrobotics.subsystems.Drivetrain;
+import com.spcrobotics.subsystems.GearShifter;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import com.spcrobotics.subsystems.Drivetrain;
-import com.spcrobotics.subsystems.GearShifter;
 
 public class Robot extends IterativeRobot {
 
 	public static Drivetrain drivetrain;
 	public static GearShifter gearShifter;
 	public static OI oi;
-
+	
+	Timer timer = null;
 	File robotLog = null;
 	FileWriter robotLogWriter = null;
 
 	public void robotInit() {
 		RobotMap.init();
-		
+		timer = new Timer();
 		drivetrain = new Drivetrain();
 		gearShifter = new GearShifter();
 		oi = new OI();
@@ -67,25 +68,35 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void testInit() {
-		robotLog = new File("/home/lvuser/robotlogs/log_" + System.currentTimeMillis());
+		robotLog = new File("/home/lvuser/robotlogs/log_" + System.currentTimeMillis() + ".txt");
+		
 		try {
+			timer.start();
+			robotLog.createNewFile();
 			robotLogWriter = new FileWriter(robotLog);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		} catch (IOException e) {e.printStackTrace();}
+		
 	}
 
 	public void testPeriodic() {
 		LiveWindow.run();
 		
+		// Write single log line
 		try {
 			robotLogWriter.write(System.currentTimeMillis()
-					+ "\t"
-					+ RobotMap.DRIVETRAIN_LEFT_ENCODER.get()
-					+ "\t"
-					+ RobotMap.DRIVETRAIN_RIGHT_ENCODER.get());
-		} catch (IOException e) {
-			e.printStackTrace();
+					+ "\t" + timer.get()
+					+ "\t" + RobotMap.DRIVETRAIN_LEFT_ENCODER.get()
+					+ "\t" + RobotMap.DRIVETRAIN_RIGHT_ENCODER.get()
+					+ "\n");
+		} 
+		catch (IOException e) {e.printStackTrace();}
+		
+		// Run drivetrain for 6 seconds for data collection
+		if (timer.get() < 6.0) {
+			drivetrain.setAll(0.1);
+		} else {
+			drivetrain.stop();
 		}
 	}
+	
 }

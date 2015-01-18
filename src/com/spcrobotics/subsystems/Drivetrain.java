@@ -48,8 +48,12 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void stop() {
+		setAll(0.0);
+	}
+	
+	public void setAll(double speed) {
 		for (Talon t : talons) {
-			t.set(0.0);
+			t.set(speed);
 		}
 	}
 
