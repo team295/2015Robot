@@ -1,11 +1,8 @@
 package com.spcrobotics;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import com.spcrobotics.subsystems.Drivetrain;
 import com.spcrobotics.subsystems.GearShifter;
+import com.spcrobotics.util.EventLogger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -19,30 +16,35 @@ public class Robot extends IterativeRobot {
 	public static GearShifter gearShifter;
 	public static OI oi;
 	
-	Timer timer = null;
-	File robotLog = null;
-	FileWriter robotLogWriter = null;
+	public static EventLogger logger = null;
+	private static Timer sessionTimer = null;
+	private static long sessionIteration = 0;
 
 	public void robotInit() {
 		RobotMap.init();
-		timer = new Timer();
 		drivetrain = new Drivetrain();
 		gearShifter = new GearShifter();
 		oi = new OI();
+		
+		logger = EventLogger.getInstance();
+		sessionTimer = new Timer();
+
 //		autonomousCommand = new ExampleCommand();
 	}
 
+	public void enabledInit() {
+		sessionTimer.start();
+	}
+	
+	public void enabledPeriodic() {
+		sessionIteration++;
+	}
+	
 	public void disabledInit() {
+		sessionTimer.reset();
+		sessionIteration = 0;
+
 		drivetrain.stop();
-		
-		if (robotLogWriter != null) {
-			try {
-				robotLogWriter.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			robotLogWriter = null;
-		}
 	}
 
 	public void disabledPeriodic() {
@@ -50,53 +52,56 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
+		enabledInit();
+		
 //		if (autonomousCommand != null)
 //			autonomousCommand.start();
 	}
 
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		enabledPeriodic();
 	}
 
-	public void teleopInit() {}
+	public void teleopInit() {
+		enabledInit();
+	}
 
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		enabledPeriodic();
 		
 		SmartDashboard.putNumber("left_encoder_count", RobotMap.DRIVETRAIN_LEFT_ENCODER.get());
 		SmartDashboard.putNumber("right_encoder_count", RobotMap.DRIVETRAIN_RIGHT_ENCODER.get());
 	}
 	
 	public void testInit() {
-		robotLog = new File("/home/lvuser/robotlogs/log_" + System.currentTimeMillis() + ".txt");
-		
-		try {
-			timer.start();
-			robotLog.createNewFile();
-			robotLogWriter = new FileWriter(robotLog);
-		} catch (IOException e) {e.printStackTrace();}
-		
+		enabledInit();
 	}
 
 	public void testPeriodic() {
 		LiveWindow.run();
+		enabledPeriodic();
 		
-		// Write single log line
-		try {
-			robotLogWriter.write(System.currentTimeMillis()
-					+ "\t" + timer.get()
-					+ "\t" + RobotMap.DRIVETRAIN_LEFT_ENCODER.get()
-					+ "\t" + RobotMap.DRIVETRAIN_RIGHT_ENCODER.get()
-					+ "\n");
-		} 
-		catch (IOException e) {e.printStackTrace();}
+		logger.log("encoderLR_counts",
+				String.valueOf(RobotMap.DRIVETRAIN_LEFT_ENCODER.get()),
+				String.valueOf(RobotMap.DRIVETRAIN_RIGHT_ENCODER.get())
+		);
 		
 		// Run drivetrain for 6 seconds for data collection
-		if (timer.get() < 6.0) {
+		if (sessionTimer.get() < 6.0) {
 			drivetrain.setAll(0.1);
 		} else {
 			drivetrain.stop();
 		}
+	}
+	
+	public static double getTimerValue() {
+		return sessionTimer.get();
+	}
+	
+	public static long getSessionIteration() {
+		return sessionIteration;
 	}
 	
 }
