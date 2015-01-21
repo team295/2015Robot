@@ -56,5 +56,14 @@ public class Drivetrain extends Subsystem {
 			t.set(speed);
 		}
 	}
-
+	
+	public void setLeft(double speed) {
+		RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR.set(speed);
+		RobotMap.DRIVETRAIN_LEFTBACK_MOTOR.set(speed);
+	}
+	
+	public void setRight(double speed) {
+		RobotMap.DRIVETRAIN_RIGHTFRONT_MOTOR.set(speed);
+		RobotMap.DRIVETRAIN_RIGHTBACK_MOTOR.set(speed);
+	}
 }
