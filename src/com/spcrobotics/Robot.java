@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.spcrobotics.subsystems.Drivetrain;
 import com.spcrobotics.subsystems.GearShifter;
+import com.spcrobotics.subsystems.Lift;
 
 public class Robot extends IterativeRobot {
 
 	public static Drivetrain drivetrain;
 	public static GearShifter gearShifter;
+	public static Lift lift;
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -22,6 +24,7 @@ public class Robot extends IterativeRobot {
 		
 		drivetrain = new Drivetrain();
 		gearShifter = new GearShifter();
+		lift = new Lift();
 		oi = new OI();
 //		autonomousCommand = new ExampleCommand();
 	}

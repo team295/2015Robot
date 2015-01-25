@@ -21,6 +21,9 @@ public class RobotMap {
 	public static Compressor COMPRESSOR;
 	public static DoubleSolenoid GEARSHIFTER_SOLENOID;
 	
+	public static Talon LIFT_MOTOR;
+	public static Encoder LIFT_ENCODER;
+	
 	public static void init() {
 		System.out.println("Initializing RobotMap"); // DEBUG
 		
@@ -44,6 +47,9 @@ public class RobotMap {
 		
 		GEARSHIFTER_SOLENOID = new DoubleSolenoid(1, 0);
 		GEARSHIFTER_SOLENOID.set(DoubleSolenoid.Value.kForward);
+		
+		LIFT_MOTOR = new Talon(5); // TODO: Find actual channel for LIFT_MOTOR
+		LIFT_ENCODER = new Encoder(6, 7); // TODO: Find actual channels for LIFT_ENCODER
 	}
 	
 }
