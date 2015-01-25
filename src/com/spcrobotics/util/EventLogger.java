@@ -55,10 +55,11 @@ public class EventLogger {
 	 */
 	public void log(String eventType, String... messageTokens) {
 		try {
-			outputWriter.write(String.valueOf(System.currentTimeMillis()));
-			outputWriter.write(String.valueOf(Robot.getTimerValue()));
-			outputWriter.write(String.valueOf(Robot.getSessionIteration()));
+			outputWriter.write(getLogHeader());
+			
+			outputWriter.write(Constant.LOGGER_DELIMITER);
 			outputWriter.write(eventType);
+			
 			for (String s : messageTokens) {
 				outputWriter.write(Constant.LOGGER_DELIMITER);
 				outputWriter.write(s);
@@ -85,6 +86,12 @@ public class EventLogger {
 		} finally {
 			singleton = new EventLogger();
 		}
+	}
+	
+	private String getLogHeader() {
+		return String.valueOf(System.currentTimeMillis())
+				+ Constant.LOGGER_DELIMITER + String.valueOf(Robot.getTimerValue())
+				+ Constant.LOGGER_DELIMITER + String.valueOf(Robot.getSessionIteration());
 	}
 	
 }
