@@ -16,6 +16,7 @@ public class Robot extends IterativeRobot {
 
 	public static Drivetrain drivetrain;
 	public static PIDDrivetrain leftDrive;
+	public static PIDDrivetrain rightDrive;
 	public static GearShifter gearShifter;
 	public static OI oi;
 	
@@ -32,6 +33,12 @@ public class Robot extends IterativeRobot {
 				RobotMap.DRIVETRAIN_LEFT_ENCODER,
 				RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR,
 				RobotMap.DRIVETRAIN_LEFTBACK_MOTOR);
+		rightDrive = new PIDDrivetrain(
+				"rightDrive",
+				0.1D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
+				RobotMap.DRIVETRAIN_RIGHT_ENCODER,
+				RobotMap.DRIVETRAIN_RIGHTFRONT_MOTOR,
+				RobotMap.DRIVETRAIN_RIGHTBACK_MOTOR);
 		gearShifter = new GearShifter();
 		oi = new OI();
 		
