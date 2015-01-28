@@ -8,6 +8,10 @@ public class PIDDriveAutonomous extends Command {
 
 	public PIDDriveAutonomous() {
 		requires(Robot.leftDrive);
+		
+		// This is required to prevent the default command from fighting for
+		// control over the motors.
+		requires(Robot.drivetrain);
 	}
 	
 	@Override
