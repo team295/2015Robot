@@ -1,7 +1,9 @@
 package com.spcrobotics;
 
+import com.spcrobotics.commands.PIDDriveAutonomous;
 import com.spcrobotics.subsystems.Drivetrain;
 import com.spcrobotics.subsystems.GearShifter;
+import com.spcrobotics.subsystems.PIDDrivetrain;
 import com.spcrobotics.util.EventLogger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -13,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static Drivetrain drivetrain;
+	public static PIDDrivetrain leftDrive;
 	public static GearShifter gearShifter;
 	public static OI oi;
 	
@@ -23,6 +26,12 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		RobotMap.init();
 		drivetrain = new Drivetrain();
+		leftDrive = new PIDDrivetrain(
+				"leftDrive",
+				0.1D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
+				RobotMap.DRIVETRAIN_LEFT_ENCODER,
+				RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR,
+				RobotMap.DRIVETRAIN_LEFTBACK_MOTOR);
 		gearShifter = new GearShifter();
 		oi = new OI();
 		
@@ -45,6 +54,7 @@ public class Robot extends IterativeRobot {
 		sessionIteration = 0;
 
 		drivetrain.stop();
+		leftDrive.stop();
 	}
 
 	public void disabledPeriodic() {
@@ -56,11 +66,18 @@ public class Robot extends IterativeRobot {
 		
 //		if (autonomousCommand != null)
 //			autonomousCommand.start();
+		
+		new PIDDriveAutonomous().start();
 	}
 
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		enabledPeriodic();
+		
+		logger.log("encoderLR_counts",
+				String.valueOf(RobotMap.DRIVETRAIN_LEFT_ENCODER.get()),
+				String.valueOf(RobotMap.DRIVETRAIN_RIGHT_ENCODER.get())
+		);
 	}
 
 	public void teleopInit() {
