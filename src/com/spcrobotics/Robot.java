@@ -1,6 +1,7 @@
 package com.spcrobotics;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -8,13 +9,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.spcrobotics.subsystems.Drivetrain;
 import com.spcrobotics.subsystems.GearShifter;
+import com.spcrobotics.subsystems.Piston;
 
 public class Robot extends IterativeRobot {
 
 	public static Drivetrain drivetrain;
 	public static GearShifter gearShifter;
+	public Piston piston;
 	public static OI oi;
+	
+	Timer timer;
+	
 
+	
 	Command autonomousCommand;
 
 	public void robotInit() {
@@ -22,6 +29,9 @@ public class Robot extends IterativeRobot {
 		
 		drivetrain = new Drivetrain();
 		gearShifter = new GearShifter();
+		piston = new Piston(1,2,3,4);
+		timer = new Timer();
+		
 		oi = new OI();
 //		autonomousCommand = new ExampleCommand();
 	}
@@ -54,5 +64,15 @@ public class Robot extends IterativeRobot {
 
 	public void testPeriodic() {
 		LiveWindow.run();
+		timer.start();
+		piston.PistonInit();
+		if (timer.get() <0) {
+			piston.PistonOn();			
+		}
+		else
+		{
+			piston.Pistonoff();
+		}
+		piston.PistonOn();
 	}
 }
