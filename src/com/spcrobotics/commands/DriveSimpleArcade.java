@@ -7,10 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /*
  * Simple one-stick arcade drive, using default stick on drive joystick
  */
-public class DriveSimpleArcade extends Command {
+public class DriveSimpleArcade extends DrivetrainCommand {
 
 	public DriveSimpleArcade() {
-		requires(Robot.drivetrain);
+		super();
+//		requires(Robot.drivetrain);
 	}
 	
 	@Override
@@ -18,6 +19,11 @@ public class DriveSimpleArcade extends Command {
 
 	@Override
 	protected void execute() {
+		if (Robot.DEBUG) {
+			System.out.println("Running DriveSimpleArcade");
+			Robot.logger.log("DriveSimpleArcade", "execute()");
+		}
+		
 		Robot.drivetrain.arcadeDrive();
 	}
 

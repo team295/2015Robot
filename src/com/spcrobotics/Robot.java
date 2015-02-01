@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
+	public static final boolean DEBUG = true;
+	
 	public static Drivetrain drivetrain;
 	public static PIDDrivetrain leftDrive;
 	public static PIDDrivetrain rightDrive;
@@ -25,20 +27,26 @@ public class Robot extends IterativeRobot {
 	private static long sessionIteration = 0;
 
 	public void robotInit() {
+		if (DEBUG) {
+			System.out.println("Initializing robot");
+		}
+		
 		RobotMap.init();
 		drivetrain = new Drivetrain();
 		leftDrive = new PIDDrivetrain(
 				"leftDrive",
-				0.1D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
+				0.0001D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
 				RobotMap.DRIVETRAIN_LEFT_ENCODER,
 				RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR,
-				RobotMap.DRIVETRAIN_LEFTBACK_MOTOR);
+				RobotMap.DRIVETRAIN_LEFTBACK_MOTOR,
+				true);
 		rightDrive = new PIDDrivetrain(
 				"rightDrive",
-				0.1D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
+				0.0001D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
 				RobotMap.DRIVETRAIN_RIGHT_ENCODER,
 				RobotMap.DRIVETRAIN_RIGHTFRONT_MOTOR,
-				RobotMap.DRIVETRAIN_RIGHTBACK_MOTOR);
+				RobotMap.DRIVETRAIN_RIGHTBACK_MOTOR,
+				false);
 		gearShifter = new GearShifter();
 		oi = new OI();
 		
@@ -115,6 +123,7 @@ public class Robot extends IterativeRobot {
 		// Run drivetrain for 6 seconds for data collection
 		if (sessionTimer.get() < 6.0) {
 			drivetrain.setAll(0.1);
+			new PIDDriveAutonomous().start();
 		} else {
 			drivetrain.stop();
 		}
