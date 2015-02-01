@@ -117,7 +117,7 @@ public class EventLogger {
 	}
 	
 	private String getLogHeader() {
-		return String.valueOf(System.currentTimeMillis())
+		return "uts" + String.valueOf(System.currentTimeMillis()) // Prevent malformed line errors with "uts"
 				+ Constant.LOGGER_DELIMITER + String.valueOf(Robot.getTimerValue())
 				+ Constant.LOGGER_DELIMITER + String.valueOf(Robot.getSessionIteration());
 	}
