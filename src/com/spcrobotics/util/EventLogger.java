@@ -4,33 +4,49 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.spcrobotics.Constant;
 import com.spcrobotics.Robot;
 
 /**
  * A logger for robot events.
- * 
  * To use this logger, call getInstance() once and call log() to add an entry.
  * To end the log file, call endLog().
+ * <p>
+ * Logs are saved as log_[datetime]_[lognumber], where datetime is the timestamp
+ * during the Logger's initialization, and lognumber is incremented after every
+ * log created.
  */
 public class EventLogger {
 	
 	private static EventLogger singleton = null;
 	
+	private final String logPrefix;
+	private int logNumber = 0;
+	
 	private File outputFile = null;
 	private BufferedWriter outputWriter = null;
 	
 	private EventLogger() {
+		logPrefix =
+				Constant.LOGGER_LOGDIR
+				+ "log_"
+				+ new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date()) // Current time
+				+ "_";
+		
 		startLog();
 	}
 	
+	/*
+	 * Starts a new log file.
+	 */
 	private void startLog() {
 		outputFile = null;
 		outputWriter = null;
-		while (outputFile == null || outputFile.exists()) {
-			outputFile = new File(Constant.LOGGER_LOGDIR + "log_" + System.currentTimeMillis());
-		}
+
+		outputFile = new File(logPrefix + String.format("%02d", logNumber));
 		
 		try {
 			outputWriter = new BufferedWriter(new FileWriter(outputFile));
@@ -54,7 +70,7 @@ public class EventLogger {
 	 * 	- robot session uptime (s)<br>
 	 * 	- robot session iteration<br>
 	 * 	- event type (user-defined String)<br>
-	 * 	- message tokens (user-defined String(s))<br>
+	 * 	- message tokens (user-defined String(s))
 	 * 
 	 * @param eventType an unique identifier for type of event
 	 * @param messageTokens zero or more Strings to be printed in the entry
@@ -96,6 +112,7 @@ public class EventLogger {
 			e.printStackTrace();
 		}
 
+		logNumber++;
 		startLog();
 	}
 	
