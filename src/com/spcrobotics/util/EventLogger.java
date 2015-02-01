@@ -22,17 +22,23 @@ public class EventLogger {
 	private BufferedWriter outputWriter = null;
 	
 	private EventLogger() {
-		// Create a new File object until name is unique
+		startLog();
+	}
+	
+	private void startLog() {
+		outputFile = null;
+		outputWriter = null;
 		while (outputFile == null || outputFile.exists()) {
 			outputFile = new File(Constant.LOGGER_LOGDIR + "log_" + System.currentTimeMillis());
 		}
 		
 		try {
-			outputFile.createNewFile();
 			outputWriter = new BufferedWriter(new FileWriter(outputFile));
+			System.out.println("Created new log at " + outputFile.getAbsolutePath());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public static EventLogger getInstance() {
@@ -64,7 +70,7 @@ public class EventLogger {
 				outputWriter.write(Constant.LOGGER_DELIMITER);
 				outputWriter.write(s);
 			}
-			outputWriter.write("\n");
+			outputWriter.newLine();
 			outputWriter.flush();
 			
 		} catch (IOException e) {
@@ -78,14 +84,19 @@ public class EventLogger {
 	public void endLog() {
 		if (Robot.getSessionIteration() < 1) {
 			outputFile.delete(); // If no iterations have passed, delete log
-		} else try {
-			outputWriter.close();
+			System.out.println("Deleted empty log at " + outputFile.getAbsolutePath());
+		} else {
 			System.out.println("Completed log at " + outputFile.getAbsolutePath());
+		}
+		
+		try {
+			outputWriter.flush();
+			outputWriter.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-			singleton = new EventLogger();
 		}
+
+		startLog();
 	}
 	
 	private String getLogHeader() {

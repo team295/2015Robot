@@ -65,11 +65,13 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void disabledInit() {
-		sessionTimer.reset();
-		sessionIteration = 0;
-
 		drivetrain.stop();
 		leftDrive.stop();
+		
+		logger.endLog();
+		
+		sessionTimer.reset();
+		sessionIteration = 0;
 	}
 
 	public void disabledPeriodic() {
