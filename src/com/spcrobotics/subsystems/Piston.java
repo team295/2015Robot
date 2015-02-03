@@ -1,20 +1,21 @@
 package com.spcrobotics.subsystems;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 
 public class Piston {
+	
+	DoubleSolenoid leftPiston;
+	DoubleSolenoid rightPiston;
 
-	Solenoid[] piston;
 	Compressor compressor;
 	
 	public Piston(int channelA, int channelB, int channelC, int channelD){
 		
-		piston = new Solenoid[4];
-		piston[0] = new Solenoid(channelA);
-		piston[1] = new Solenoid(channelB);
-		piston[2] = new Solenoid(channelC);
-		piston[3] = new Solenoid(channelD);
+
+		leftPiston = new DoubleSolenoid(channelA, channelB);
+		rightPiston = new DoubleSolenoid(channelC, channelD);
 		
 		compressor = new Compressor();
 	}
@@ -23,32 +24,24 @@ public class Piston {
 		compressor.start();
 	}
 	public void PistonOn(){
-		for(Solenoid s: piston)
-		{
-			s.set(true);
-		}
+		leftPiston.set(DoubleSolenoid.Value.kForward);
+		rightPiston.set(DoubleSolenoid.Value.kForward);
 	}	
 	public void Pistonoff(){
-		for(Solenoid s: piston)
-		{
-			s.set(false);
-		}
+		leftPiston.set(DoubleSolenoid.Value.kOff);
+		rightPiston.set(DoubleSolenoid.Value.kOff);
 	}
 	public void leftPistonOn(){
-		piston[0].set(true);
-		piston[1].set(true);
+		leftPiston.set(DoubleSolenoid.Value.kForward);
 	}
 	public void leftPistonOff(){
-		piston[0].set(false);
-		piston[1].set(false);
+		leftPiston.set(DoubleSolenoid.Value.kOff);
 	}
 	public void rightPistonOn(){
-		piston[2].set(true);
-		piston[3].set(true);
+		rightPiston.set(DoubleSolenoid.Value.kForward);
 	}
 	public void rightPistonOff(){
-		piston[2].set(false);
-		piston[3].set(false);
+		rightPiston.set(DoubleSolenoid.Value.kOff);
 	}
 	public void PistonDisable(){
 		compressor.stop();
