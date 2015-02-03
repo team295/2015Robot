@@ -10,6 +10,8 @@ public abstract class DrivetrainCommand extends Command {
 		requires(Robot.drivetrain);
 		requires(Robot.leftDrive);
 		requires(Robot.rightDrive);
+		requires(Robot.leftSpeedDrive);
+		requires(Robot.rightSpeedDrive);
 	}
 	
 }

@@ -1,18 +1,14 @@
 package com.spcrobotics.commands;
 
 import com.spcrobotics.Robot;
+import com.spcrobotics.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class PIDDriveAutonomous extends DrivetrainCommand {
+public class DrivePIDDistance extends DrivetrainCommand {
 
-	public PIDDriveAutonomous() {
+	public DrivePIDDistance() {
 		super();
-//		requires(Robot.leftDrive);
-//		
-//		// This is required to prevent the default command from fighting for
-//		// control over the motors.
-//		requires(Robot.drivetrain);
 	}
 	
 	@Override
@@ -25,7 +21,8 @@ public class PIDDriveAutonomous extends DrivetrainCommand {
 	protected void execute() {
 		if (Robot.DEBUG) {
 			System.out.println("Running PIDDriveAutonomous");
-			Robot.logger.log("PIDDriveAutonomous", "execute()");
+			//Robot.logger.log("PIDDriveAutonomous", "execute()");
+			System.out.println("Speed:" + RobotMap.DRIVETRAIN_LEFT_ENCODER.getRate());
 		}
 	}
 

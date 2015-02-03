@@ -1,20 +1,22 @@
 package com.spcrobotics.subsystems;
 
 import com.spcrobotics.Robot;
-import com.spcrobotics.commands.PIDDriveAutonomous;
+import com.spcrobotics.RobotMap;
+import com.spcrobotics.commands.DrivePIDDistance;
+import com.spcrobotics.commands.DrivePIDSpeed;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
-public class PIDDrivetrain extends PIDSubsystem {
+public class PIDDriveSpeed extends PIDSubsystem {
 
 	private Encoder encoder;
 	private SpeedController motorFront;
 	private SpeedController motorBack;
 	private boolean reverseOutput;
 	
-	public PIDDrivetrain(
+	public PIDDriveSpeed(
 			String name,
 			double p, double i, double d, double t,
 			Encoder enc,
@@ -25,7 +27,7 @@ public class PIDDrivetrain extends PIDSubsystem {
 		
 		getPIDController().setContinuous(false);
 //		setOutputRange(-1.0D, 1.0D);
-		setOutputRange(-0.2D, 0.2D); // DEBUG
+		setOutputRange(-1.0D, 1.0D); // DEBUG
 		
 		encoder = enc;
 		motorFront = scFront;
@@ -35,12 +37,12 @@ public class PIDDrivetrain extends PIDSubsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new PIDDriveAutonomous());
+		setDefaultCommand(new DrivePIDSpeed());
 	}
 
 	@Override
 	protected double returnPIDInput() {
-		return encoder.get();
+		return encoder.getRate();
 	}
 
 	@Override
@@ -50,7 +52,7 @@ public class PIDDrivetrain extends PIDSubsystem {
 		motorBack.set(output);
 		
 		Robot.logger.log(this.getName() + "PID_ios",
-				String.valueOf(encoder.get()),
+				String.valueOf(RobotMap.DRIVETRAIN_LEFT_ENCODER.getRate()),
 				String.valueOf(output),
 				String.valueOf(this.getSetpoint()));
 	}
