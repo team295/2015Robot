@@ -22,6 +22,9 @@ public class Robot extends IterativeRobot {
 	public static DrivetrainPIDSpeed rightSpeedDrive;
 	public static OI oi;
 	
+	public static DrivePIDSpeed leftTeleopDriveCommand = null;
+	public static DrivePIDSpeed rightTeleopDriveCommand = null;
+	
 	public static EventLogger logger = null;
 	private static Timer sessionTimer = null;
 	private static long sessionIteration = 0;
@@ -37,7 +40,7 @@ public class Robot extends IterativeRobot {
 	
 		leftDistDrive = new DrivetrainPIDDistance(
 				"leftDriveDistance",
-				0.0111D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
+				0.0001D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
 				RobotMap.DRIVETRAIN_LEFT_ENCODER,
 				RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR,
 				RobotMap.DRIVETRAIN_LEFTBACK_MOTOR,
@@ -81,14 +84,25 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void disabledInit() {
+		// Turns off motors
 		drivetrain.stop();
+
+		// Disables PID and turns off motors
 		leftDistDrive.stopSystem();
 		rightDistDrive.stopSystem();
-		leftSpeedDrive.stopSystem();
-		rightSpeedDrive.stopSystem();
 		
+		// Disables PID
+		if (leftTeleopDriveCommand != null) {
+			leftTeleopDriveCommand.cancel();
+			leftTeleopDriveCommand = null;
+		}
+		if (rightTeleopDriveCommand != null) {
+			rightTeleopDriveCommand.cancel();
+			rightTeleopDriveCommand = null;
+		}
+		
+		// Ends current log and begins a new one; resets run statistics
 		logger.endLog();
-		
 		sessionTimer.reset();
 		sessionIteration = 0;
 	}
@@ -119,15 +133,13 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		enabledInit();
 		
-		leftSpeedDrive.startSystem();
-		rightSpeedDrive.startSystem();
+		leftTeleopDriveCommand = new DrivePIDSpeed(leftSpeedDrive);
+		rightTeleopDriveCommand = new DrivePIDSpeed(rightSpeedDrive);
 	}
 
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		enabledPeriodic();
-		
-		
 		
 		SmartDashboard.putNumber("left_encoder_count", RobotMap.DRIVETRAIN_LEFT_ENCODER.get());
 		SmartDashboard.putNumber("right_encoder_count", RobotMap.DRIVETRAIN_RIGHT_ENCODER.get());

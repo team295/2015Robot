@@ -5,7 +5,7 @@ import com.spcrobotics.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DrivePIDDistance extends DrivetrainCommand {
+public class DrivePIDDistance extends Command {
 
 	private final double setpoint;
 	

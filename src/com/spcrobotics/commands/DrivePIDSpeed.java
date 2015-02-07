@@ -5,7 +5,7 @@ import com.spcrobotics.subsystems.DrivetrainPIDSpeed;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class DrivePIDSpeed extends DrivetrainCommand {
+public class DrivePIDSpeed extends Command {
 
 	private DrivetrainPIDSpeed pid = null;
 	private double desiredSpeed = 0.0D;
@@ -18,7 +18,7 @@ public class DrivePIDSpeed extends DrivetrainCommand {
 	@Override
 	protected void initialize() {
 		pid.setSetpoint(desiredSpeed);
-		pid.enable();
+		pid.startSystem();
 	}
 
 	@Override
@@ -32,15 +32,16 @@ public class DrivePIDSpeed extends DrivetrainCommand {
 
 	@Override
 	protected boolean isFinished() {
-//		return Robot.leftSpeedDrive.onTarget();
 		return false; // Command should always run
 	}
 
 	@Override
-	protected void end() {}
+	protected void end() {
+		pid.stopSystem();
+	}
 
 	@Override
-	protected void interrupted() {}
+	protected void interrupted() {end();}
 	
 	public void setDesiredSpeed(double desiredSpeed) {
 		this.desiredSpeed = desiredSpeed;

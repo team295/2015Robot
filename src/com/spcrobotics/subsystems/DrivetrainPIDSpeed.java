@@ -16,8 +16,6 @@ public class DrivetrainPIDSpeed extends PIDSubsystem {
 	private SpeedController motorBack;
 	private boolean reverseOutput;
 	
-	private DrivePIDSpeed command;
-	
 	public DrivetrainPIDSpeed(
 			String name,
 			double p, double i, double d, double t,
@@ -35,14 +33,10 @@ public class DrivetrainPIDSpeed extends PIDSubsystem {
 		motorFront = scFront;
 		motorBack = scBack;
 		this.reverseOutput = reverseOutput;
-		
-		command = new DrivePIDSpeed(this);
 	}
 	
 	@Override
-	protected void initDefaultCommand() {
-		setDefaultCommand(command);
-	}
+	protected void initDefaultCommand() {}
 
 	@Override
 	protected double returnPIDInput() {
