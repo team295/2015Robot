@@ -5,9 +5,9 @@ import com.spcrobotics.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ManualLiftControl extends Command {
+public class LiftManual extends Command {
 
-	public ManualLiftControl() {
+	public LiftManual() {
 		requires(Robot.lift);
 	}
 	
