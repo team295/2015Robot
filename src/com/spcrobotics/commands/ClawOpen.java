@@ -11,14 +11,13 @@ public class ClawOpen extends Command {
 	}
 
 	protected void initialize() {
-		Robot.claw.pin(false); // First remove the pin
-		Robot.claw.open(true); // The open the claw
+		Robot.claw.open(true);
 	}
 
 	protected void execute() {}
 
 	protected boolean isFinished() {
-		return !Robot.claw.isPinned() && Robot.claw.isOpen();
+		return Robot.claw.isOpen();
 	}
 
 	protected void end() {}

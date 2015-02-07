@@ -1,9 +1,6 @@
 package com.spcrobotics;
 
-import com.spcrobotics.commands.ClawClose;
-import com.spcrobotics.commands.ClawOpen;
-import com.spcrobotics.commands.ShiftHighGear;
-import com.spcrobotics.commands.ShiftLowGear;
+import com.spcrobotics.commands.*;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -19,6 +16,8 @@ public class OI {
 	
 	public Button buttonOpen;
 	public Button buttonClose;
+	public Button buttonPin;
+	public Button buttonUnpin;
 	
 	public OI() {
 
@@ -47,6 +46,12 @@ public class OI {
 		
 		buttonClose = new JoystickButton(joystickOperator, 2);
 		buttonClose.whenPressed(new ClawClose());
+		
+		buttonPin = new JoystickButton(joystickOperator, 3);
+		buttonPin.whenPressed(new ClawPin());
+
+		buttonUnpin = new JoystickButton(joystickOperator, 4);
+		buttonUnpin.whenPressed(new ClawUnpin());
 	}
 
 }

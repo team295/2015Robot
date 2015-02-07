@@ -69,17 +69,5 @@ public class Robot extends IterativeRobot {
 
 	public void testPeriodic() {
 		LiveWindow.run();
-		
-		if (timer.get() < 4.0) {
-			RobotMap.CLAW_EXTENDERS.set(Constant.CLAW_EXTENDERS_OUT);
-		} else {
-			RobotMap.CLAW_EXTENDERS.set(Constant.CLAW_EXTENDERS_IN);
-		}
-		
-//		if (timer.get() < 4.0) {
-//			RobotMap.CLAW_PINS.set(Constant.CLAW_PINS_OUT);
-//		} else {
-//			RobotMap.CLAW_PINS.set(Constant.CLAW_PINS_IN);
-//		}
 	}
 }

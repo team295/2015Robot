@@ -4,20 +4,20 @@ import com.spcrobotics.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ClawClose extends Command {
+public class ClawPin extends Command {
 
-	public ClawClose() {
+	public ClawPin() {
 		requires(Robot.claw);
 	}
 
 	protected void initialize() {
-		Robot.claw.open(false);
+		Robot.claw.pin(true);
 	}
 
 	protected void execute() {}
 
 	protected boolean isFinished() {
-		return !Robot.claw.isOpen();
+		return Robot.claw.isPinned();
 	}
 
 	protected void end() {}
