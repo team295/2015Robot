@@ -7,28 +7,30 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class DrivePIDDistance extends DrivetrainCommand {
 
-	public DrivePIDDistance() {
+	private final double setpoint;
+	
+	public DrivePIDDistance(double distanceSetpoint) {
 		super();
+		this.setpoint = distanceSetpoint;
 	}
 	
 	@Override
 	protected void initialize() {
-		Robot.leftDrive.enable();
-		Robot.leftDrive.setSetpoint(24 * 1024.0D); // TODO: Move setpoint to Constant
+		Robot.leftDistDrive.setSetpoint(setpoint);
+		Robot.leftDistDrive.enable();
 	}
 
 	@Override
 	protected void execute() {
 		if (Robot.DEBUG) {
 			System.out.println("Running PIDDriveAutonomous");
-			//Robot.logger.log("PIDDriveAutonomous", "execute()");
-			System.out.println("Speed:" + RobotMap.DRIVETRAIN_LEFT_ENCODER.getRate());
+			System.out.println("Speed: " + RobotMap.DRIVETRAIN_LEFT_ENCODER.getRate());
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return Robot.leftDrive.onTarget();
+		return Robot.leftDistDrive.onTarget();
 	}
 
 	@Override

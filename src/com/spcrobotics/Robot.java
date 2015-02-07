@@ -1,11 +1,7 @@
 package com.spcrobotics;
 
-import com.spcrobotics.commands.DrivePIDDistance;
-import com.spcrobotics.commands.DrivePIDSpeed;
-import com.spcrobotics.subsystems.Drivetrain;
-import com.spcrobotics.subsystems.GearShifter;
-import com.spcrobotics.subsystems.PIDDriveSpeed;
-import com.spcrobotics.subsystems.PIDDriveDistance;
+import com.spcrobotics.commands.*;
+import com.spcrobotics.subsystems.*;
 import com.spcrobotics.util.EventLogger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -19,19 +15,17 @@ public class Robot extends IterativeRobot {
 	public static final boolean DEBUG = true;
 	
 	public static Drivetrain drivetrain;
-	public static PIDDriveDistance leftDrive;
-	public static PIDDriveDistance rightDrive;
 	public static GearShifter gearShifter;
-	public static PIDDriveSpeed leftSpeedDrive;
-	public static PIDDriveSpeed rightSpeedDrive;
+	public static DrivetrainPIDDistance leftDistDrive;
+	public static DrivetrainPIDDistance rightDistDrive;
+	public static DrivetrainPIDSpeed leftSpeedDrive;
+	public static DrivetrainPIDSpeed rightSpeedDrive;
 	public static OI oi;
 	
 	public static EventLogger logger = null;
 	private static Timer sessionTimer = null;
 	private static long sessionIteration = 0;
 
-	public static DrivePIDSpeed driveSpeedCmd;
-	
 	public void robotInit() {
 		if (DEBUG) {
 			System.out.println("Initializing robot");
@@ -41,28 +35,29 @@ public class Robot extends IterativeRobot {
 		
 		drivetrain = new Drivetrain();
 	
-		leftDrive = new PIDDriveDistance(
+		leftDistDrive = new DrivetrainPIDDistance(
 				"leftDriveDistance",
 				0.0111D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
 				RobotMap.DRIVETRAIN_LEFT_ENCODER,
 				RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR,
 				RobotMap.DRIVETRAIN_LEFTBACK_MOTOR,
 				true);
-		rightDrive = new PIDDriveDistance(
+		rightDistDrive = new DrivetrainPIDDistance(
 				"rightDriveDistance",
 				0.0001D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
 				RobotMap.DRIVETRAIN_RIGHT_ENCODER,
 				RobotMap.DRIVETRAIN_RIGHTFRONT_MOTOR,
 				RobotMap.DRIVETRAIN_RIGHTBACK_MOTOR,
 				false);
-		leftSpeedDrive = new PIDDriveSpeed(
+		
+		leftSpeedDrive = new DrivetrainPIDSpeed(
 				"leftDriveSpeed",
 				0.0111D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
 				RobotMap.DRIVETRAIN_LEFT_ENCODER,
 				RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR,
 				RobotMap.DRIVETRAIN_LEFTBACK_MOTOR,
 				true);
-		rightSpeedDrive = new PIDDriveSpeed(
+		rightSpeedDrive = new DrivetrainPIDSpeed(
 				"rightDriveSpeed",
 				0.008391775D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
 				RobotMap.DRIVETRAIN_RIGHT_ENCODER,
@@ -75,10 +70,6 @@ public class Robot extends IterativeRobot {
 		
 		logger = EventLogger.getInstance();
 		sessionTimer = new Timer();
-
-//		autonomousCommand = new ExampleCommand();
-		
-
 	}
 
 	public void enabledInit() {
@@ -91,7 +82,10 @@ public class Robot extends IterativeRobot {
 	
 	public void disabledInit() {
 		drivetrain.stop();
-		leftDrive.stop();
+		leftDistDrive.stopSystem();
+		rightDistDrive.stopSystem();
+		leftSpeedDrive.stopSystem();
+		rightSpeedDrive.stopSystem();
 		
 		logger.endLog();
 		
@@ -106,17 +100,15 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		enabledInit();
 		
-//		if (autonomousCommand != null)
-//			autonomousCommand.start();
+		leftDistDrive.startSystem();
+		rightDistDrive.startSystem();
 		
-		//new DrivePIDDistance().start();
-		new DrivePIDSpeed().start();
+		new AutoPickupAndRetreat().start();
 	}
 
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		enabledPeriodic();
-		
 		
 		logger.log("encoderLR_counts",
 				String.valueOf(RobotMap.DRIVETRAIN_LEFT_ENCODER.get()),
@@ -126,11 +118,16 @@ public class Robot extends IterativeRobot {
 
 	public void teleopInit() {
 		enabledInit();
+		
+		leftSpeedDrive.startSystem();
+		rightSpeedDrive.startSystem();
 	}
 
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		enabledPeriodic();
+		
+		
 		
 		SmartDashboard.putNumber("left_encoder_count", RobotMap.DRIVETRAIN_LEFT_ENCODER.get());
 		SmartDashboard.putNumber("right_encoder_count", RobotMap.DRIVETRAIN_RIGHT_ENCODER.get());
@@ -138,13 +135,11 @@ public class Robot extends IterativeRobot {
 	
 	public void testInit() {
 		enabledInit();
-		driveSpeedCmd = new DrivePIDSpeed();
 	}
 
 	public void testPeriodic() {
 		LiveWindow.run();
 		enabledPeriodic();
-		
 		
 		logger.log("encoderLR_counts",
 				String.valueOf(RobotMap.DRIVETRAIN_LEFT_ENCODER.getRate()),

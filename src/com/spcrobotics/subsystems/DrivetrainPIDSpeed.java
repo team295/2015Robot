@@ -9,14 +9,16 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
-public class PIDDriveSpeed extends PIDSubsystem {
+public class DrivetrainPIDSpeed extends PIDSubsystem {
 
 	private Encoder encoder;
 	private SpeedController motorFront;
 	private SpeedController motorBack;
 	private boolean reverseOutput;
 	
-	public PIDDriveSpeed(
+	private DrivePIDSpeed command;
+	
+	public DrivetrainPIDSpeed(
 			String name,
 			double p, double i, double d, double t,
 			Encoder enc,
@@ -25,19 +27,21 @@ public class PIDDriveSpeed extends PIDSubsystem {
 		super(name, p, i, d);
 		setAbsoluteTolerance(t);
 		
+		this.disable();
 		getPIDController().setContinuous(false);
-//		setOutputRange(-1.0D, 1.0D);
 		setOutputRange(-1.0D, 1.0D); // DEBUG
 		
 		encoder = enc;
 		motorFront = scFront;
 		motorBack = scBack;
 		this.reverseOutput = reverseOutput;
+		
+		command = new DrivePIDSpeed(this);
 	}
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new DrivePIDSpeed());
+		setDefaultCommand(command);
 	}
 
 	@Override
@@ -57,7 +61,11 @@ public class PIDDriveSpeed extends PIDSubsystem {
 				String.valueOf(this.getSetpoint()));
 	}
 	
-	public void stop() {
+	public void startSystem() {
+		this.enable();
+	}
+	
+	public void stopSystem() {
 		this.disable();
 		motorFront.set(0.0D);
 		motorBack.set(0.0D);

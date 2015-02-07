@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /*
  * Simple one-stick arcade drive, using default stick on drive joystick
  */
-public class DriveSimpleArcade extends DrivetrainCommand {
+public class DriveSimpleArcade extends Command {
 
 	public DriveSimpleArcade() {
 		super();
-//		requires(Robot.drivetrain);
+		requires(Robot.drivetrain);
 	}
 	
 	@Override

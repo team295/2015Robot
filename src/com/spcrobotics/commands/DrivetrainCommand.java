@@ -8,10 +8,22 @@ public abstract class DrivetrainCommand extends Command {
 	
 	public DrivetrainCommand() {
 		requires(Robot.drivetrain);
-		requires(Robot.leftDrive);
-		requires(Robot.rightDrive);
-		requires(Robot.leftSpeedDrive);
-		requires(Robot.rightSpeedDrive);
+	}
+	
+	public static abstract class LeftDrivetrainCommand extends DrivetrainCommand {
+		public LeftDrivetrainCommand() {
+			super();
+			requires(Robot.leftDistDrive);
+			requires(Robot.leftSpeedDrive);
+		}
+	}
+	
+	public static abstract class RightDrivetrainCommand extends DrivetrainCommand {
+		public RightDrivetrainCommand() {
+			super();
+			requires(Robot.rightDistDrive);
+			requires(Robot.rightSpeedDrive);
+		}
 	}
 	
 }

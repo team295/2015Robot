@@ -7,14 +7,14 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
-public class PIDDriveDistance extends PIDSubsystem {
+public class DrivetrainPIDDistance extends PIDSubsystem {
 
 	private Encoder encoder;
 	private SpeedController motorFront;
 	private SpeedController motorBack;
 	private boolean reverseOutput;
 	
-	public PIDDriveDistance(
+	public DrivetrainPIDDistance(
 			String name,
 			double p, double i, double d, double t,
 			Encoder enc,
@@ -34,9 +34,7 @@ public class PIDDriveDistance extends PIDSubsystem {
 	}
 	
 	@Override
-	protected void initDefaultCommand() {
-		setDefaultCommand(new DrivePIDDistance());
-	}
+	protected void initDefaultCommand() {}
 
 	@Override
 	protected double returnPIDInput() {
@@ -55,7 +53,11 @@ public class PIDDriveDistance extends PIDSubsystem {
 				String.valueOf(this.getSetpoint()));
 	}
 	
-	public void stop() {
+	public void startSystem() {
+		this.enable();
+	}
+	
+	public void stopSystem() {
 		this.disable();
 		motorFront.set(0.0D);
 		motorBack.set(0.0D);
