@@ -1,5 +1,6 @@
 package com.spcrobotics.commands;
 
+import com.spcrobotics.OI;
 import com.spcrobotics.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -15,7 +16,8 @@ public class ManualLiftControl extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.lift.setSpeed(Robot.oi.joystickOperator.getY());
+		Robot.lift.setSpeed(
+				OI.deadband(Robot.oi.joystickOperator.getY(), 0.1));
 	}
 
 	@Override
