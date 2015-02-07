@@ -27,10 +27,10 @@ public class RobotMap {
 	public static void init() {
 		System.out.println("Initializing RobotMap"); // DEBUG
 		
-		DRIVETRAIN_LEFTFRONT_MOTOR =  new Talon(0);
-		DRIVETRAIN_LEFTBACK_MOTOR =   new Talon(1);
-		DRIVETRAIN_RIGHTFRONT_MOTOR = new Talon(2);
-		DRIVETRAIN_RIGHTBACK_MOTOR =  new Talon(3);
+		DRIVETRAIN_LEFTFRONT_MOTOR =  new Talon(3);
+		DRIVETRAIN_LEFTBACK_MOTOR =   new Talon(4);
+		DRIVETRAIN_RIGHTFRONT_MOTOR = new Talon(0);
+		DRIVETRAIN_RIGHTBACK_MOTOR =  new Talon(1);
 		
 		DRIVETRAIN_LEFT_ENCODER =  new Encoder(0, 1);
 		DRIVETRAIN_RIGHT_ENCODER = new Encoder(2, 3);
