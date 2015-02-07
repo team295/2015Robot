@@ -48,8 +48,8 @@ public class RobotMap {
 		GEARSHIFTER_SOLENOID = new DoubleSolenoid(1, 0);
 		GEARSHIFTER_SOLENOID.set(DoubleSolenoid.Value.kForward);
 		
-		LIFT_MOTOR = new Talon(5); // TODO: Find actual channel for LIFT_MOTOR
-		LIFT_ENCODER = new Encoder(6, 7); // TODO: Find actual channels for LIFT_ENCODER
+		LIFT_MOTOR = new Talon(2);
+//		LIFT_ENCODER = new Encoder(6, 7); // TODO: Find actual channels for LIFT_ENCODER
 	}
 	
 }
