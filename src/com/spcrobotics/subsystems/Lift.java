@@ -33,4 +33,7 @@ public class Lift extends Subsystem {
 	public int getPosition() {return encoder.get();}
 	public double getDistance() {return encoder.getDistance();}
 	
+	public boolean isAtTop() {return topSwitch.get() == true;}
+	public boolean isAtBottom() {return bottomSwitch.get() == true;}
+	
 }

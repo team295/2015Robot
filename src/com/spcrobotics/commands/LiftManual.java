@@ -18,8 +18,14 @@ public class LiftManual extends Command {
 	protected void execute() {
 		double rawInput = Robot.oi.joystickOperator.getY() * -1;
 		double adjInput = OI.deadband(rawInput, 0.1);
-	
-		Robot.lift.setSpeed(adjInput);
+		
+		// Prevent going too far up or too far down
+		if ((adjInput > 0 && Robot.lift.isAtTop()) ||
+			(adjInput < 0 && Robot.lift.isAtBottom())) {
+			Robot.lift.setSpeed(0.0);
+		} else {
+			Robot.lift.setSpeed(adjInput);
+		}
 	}
 
 	@Override
