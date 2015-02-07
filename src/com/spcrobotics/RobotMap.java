@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.VictorSP;
 
 public class RobotMap {
 	
-	public static Talon DRIVETRAIN_LEFTFRONT_MOTOR;
-	public static Talon DRIVETRAIN_LEFTBACK_MOTOR;
-	public static Talon DRIVETRAIN_RIGHTFRONT_MOTOR;
-	public static Talon DRIVETRAIN_RIGHTBACK_MOTOR;
+	public static VictorSP DRIVETRAIN_LEFTFRONT_MOTOR;
+	public static VictorSP DRIVETRAIN_LEFTBACK_MOTOR;
+	public static VictorSP DRIVETRAIN_RIGHTFRONT_MOTOR;
+	public static VictorSP DRIVETRAIN_RIGHTBACK_MOTOR;
 
 	public static Encoder DRIVETRAIN_LEFT_ENCODER;
 	public static Encoder DRIVETRAIN_RIGHT_ENCODER;
@@ -21,16 +21,16 @@ public class RobotMap {
 	public static Compressor COMPRESSOR;
 	public static DoubleSolenoid GEARSHIFTER_SOLENOID;
 	
-	public static Talon LIFT_MOTOR;
+	public static VictorSP LIFT_MOTOR;
 	public static Encoder LIFT_ENCODER;
 	
 	public static void init() {
 		System.out.println("Initializing RobotMap"); // DEBUG
 		
-		DRIVETRAIN_LEFTFRONT_MOTOR =  new Talon(3);
-		DRIVETRAIN_LEFTBACK_MOTOR =   new Talon(4);
-		DRIVETRAIN_RIGHTFRONT_MOTOR = new Talon(0);
-		DRIVETRAIN_RIGHTBACK_MOTOR =  new Talon(1);
+		DRIVETRAIN_LEFTFRONT_MOTOR =  new VictorSP(3);
+		DRIVETRAIN_LEFTBACK_MOTOR =   new VictorSP(4);
+		DRIVETRAIN_RIGHTFRONT_MOTOR = new VictorSP(0);
+		DRIVETRAIN_RIGHTBACK_MOTOR =  new VictorSP(1);
 		
 		DRIVETRAIN_LEFT_ENCODER =  new Encoder(0, 1);
 		DRIVETRAIN_RIGHT_ENCODER = new Encoder(2, 3);
@@ -48,7 +48,7 @@ public class RobotMap {
 		GEARSHIFTER_SOLENOID = new DoubleSolenoid(1, 0);
 		GEARSHIFTER_SOLENOID.set(DoubleSolenoid.Value.kForward);
 		
-		LIFT_MOTOR = new Talon(2);
+		LIFT_MOTOR = new VictorSP(8);
 //		LIFT_ENCODER = new Encoder(6, 7); // TODO: Find actual channels for LIFT_ENCODER
 	}
 	

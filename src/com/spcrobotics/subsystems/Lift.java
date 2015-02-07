@@ -1,6 +1,7 @@
 package com.spcrobotics.subsystems;
 
 import com.spcrobotics.RobotMap;
+import com.spcrobotics.commands.ManualLiftControl;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -21,7 +22,7 @@ public class Lift extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-//		setDefaultCommand(null);
+		setDefaultCommand(new ManualLiftControl());
 	}
 	
 	public void setSpeed(double speed) {motor.set(speed);}

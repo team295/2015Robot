@@ -16,8 +16,10 @@ public class ManualLiftControl extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.lift.setSpeed(
-				OI.deadband(Robot.oi.joystickOperator.getY(), 0.1));
+		double rawInput = Robot.oi.joystickOperator.getY() * -1;
+		double adjInput = OI.deadband(rawInput, 0.1);
+	
+		Robot.lift.setSpeed(adjInput);
 	}
 
 	@Override
