@@ -19,7 +19,11 @@ public class RobotMap {
 	public static RobotDrive DRIVETRAIN_DRIVE;
 	
 	public static Compressor COMPRESSOR;
+	
 	public static DoubleSolenoid GEARSHIFTER_SOLENOID;
+	
+	public static DoubleSolenoid CLAW_EXTENDERS;
+	public static DoubleSolenoid CLAW_PINS;
 	
 	public static void init() {
 		System.out.println("Initializing RobotMap"); // DEBUG
@@ -43,7 +47,10 @@ public class RobotMap {
 		COMPRESSOR.setClosedLoopControl(true);
 		
 		GEARSHIFTER_SOLENOID = new DoubleSolenoid(1, 0);
-		GEARSHIFTER_SOLENOID.set(DoubleSolenoid.Value.kForward);
+		GEARSHIFTER_SOLENOID.set(Constant.GEARSHIFTER_LOWGEAR_VALUE);
+		
+		CLAW_EXTENDERS = new DoubleSolenoid(2, 3);
+		CLAW_PINS = new DoubleSolenoid(6, 7);
 	}
 	
 }

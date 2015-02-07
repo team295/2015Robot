@@ -7,20 +7,18 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import com.spcrobotics.subsystems.Claw;
 import com.spcrobotics.subsystems.Drivetrain;
 import com.spcrobotics.subsystems.GearShifter;
-import com.spcrobotics.subsystems.Piston;
 
 public class Robot extends IterativeRobot {
 
 	public static Drivetrain drivetrain;
 	public static GearShifter gearShifter;
-	public Piston piston;
+	public static Claw claw;
 	public static OI oi;
 	
 	Timer timer;
-	
-
 	
 	Command autonomousCommand;
 
@@ -29,7 +27,7 @@ public class Robot extends IterativeRobot {
 		
 		drivetrain = new Drivetrain();
 		gearShifter = new GearShifter();
-		piston = new Piston(1,2,3,4);
+		claw = new Claw();
 		timer = new Timer();
 		
 		oi = new OI();
@@ -38,6 +36,9 @@ public class Robot extends IterativeRobot {
 
 	public void disabledInit() {
 		drivetrain.stop();
+		
+		timer.stop();
+		timer.reset();
 	}
 
 	public void disabledPeriodic() {
@@ -61,18 +62,24 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("left_encoder_count", RobotMap.DRIVETRAIN_LEFT_ENCODER.get());
 		SmartDashboard.putNumber("right_encoder_count", RobotMap.DRIVETRAIN_RIGHT_ENCODER.get());
 	}
+	
+	public void testInit() {
+		timer.start();
+	}
 
 	public void testPeriodic() {
 		LiveWindow.run();
-		timer.start();
-		piston.PistonInit();
-		if (timer.get() <0) {
-			piston.PistonOn();			
+		
+		if (timer.get() < 4.0) {
+			RobotMap.CLAW_EXTENDERS.set(Constant.CLAW_EXTENDERS_OUT);
+		} else {
+			RobotMap.CLAW_EXTENDERS.set(Constant.CLAW_EXTENDERS_IN);
 		}
-		else
-		{
-			piston.Pistonoff();
-		}
-		piston.PistonOn();
+		
+//		if (timer.get() < 4.0) {
+//			RobotMap.CLAW_PINS.set(Constant.CLAW_PINS_OUT);
+//		} else {
+//			RobotMap.CLAW_PINS.set(Constant.CLAW_PINS_IN);
+//		}
 	}
 }
