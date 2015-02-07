@@ -4,12 +4,10 @@ import com.spcrobotics.Robot;
 import com.spcrobotics.RobotMap;
 import com.spcrobotics.commands.DriveSimpleArcade;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Drivetrain extends Subsystem {
@@ -48,9 +46,22 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void stop() {
+		setAll(0.0);
+	}
+	
+	public void setAll(double speed) {
 		for (SpeedController sc : motors) {
 			sc.set(0.0);
 		}
 	}
-
+	
+	public void setLeft(double speed) {
+		RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR.set(speed);
+		RobotMap.DRIVETRAIN_LEFTBACK_MOTOR.set(speed);
+	}
+	
+	public void setRight(double speed) {
+		RobotMap.DRIVETRAIN_RIGHTFRONT_MOTOR.set(speed);
+		RobotMap.DRIVETRAIN_RIGHTBACK_MOTOR.set(speed);
+	}
 }

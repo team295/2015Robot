@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.spcrobotics.subsystems.*;
+import com.spcrobotics.util.EventLogger;
 
 public class Robot extends IterativeRobot {
 
@@ -17,10 +18,10 @@ public class Robot extends IterativeRobot {
 	public static Claw claw;
 	public static OI oi;
 	
-	Timer timer;
+	public static EventLogger logger = null;
+	private static Timer sessionTimer = null;
+	private static long sessionIteration = 0;
 	
-	Command autonomousCommand;
-
 	public void robotInit() {
 		RobotMap.init();
 		
@@ -30,14 +31,26 @@ public class Robot extends IterativeRobot {
 		claw = new Claw();
 		oi = new OI();
 		
-		timer = new Timer();
+		logger = EventLogger.getInstance();
+		sessionTimer = new Timer();
+
 	}
 
+	public void enabledInit() {
+		sessionTimer.start();
+	}
+	
+	public void enabledPeriodic() {
+		sessionIteration++;
+	}
+	
 	public void disabledInit() {
 		drivetrain.stop();
 		
-		timer.stop();
-		timer.reset();
+		logger.endLog();
+		
+		sessionTimer.reset();
+		sessionIteration = 0;
 	}
 
 	public void disabledPeriodic() {
@@ -45,28 +58,41 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		enabledInit();
 	}
 
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		enabledPeriodic();
 	}
 
-	public void teleopInit() {}
+	public void teleopInit() {
+		enabledInit();
+	}
 
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		enabledPeriodic();
 		
 		SmartDashboard.putNumber("left_encoder_count", RobotMap.DRIVETRAIN_LEFT_ENCODER.get());
 		SmartDashboard.putNumber("right_encoder_count", RobotMap.DRIVETRAIN_RIGHT_ENCODER.get());
 	}
 	
 	public void testInit() {
-		timer.start();
+		enabledInit();
 	}
 
 	public void testPeriodic() {
 		LiveWindow.run();
+		enabledPeriodic();
 	}
+	
+	public static double getTimerValue() {
+		return sessionTimer.get();
+	}
+	
+	public static long getSessionIteration() {
+		return sessionIteration;
+	}
+	
 }
