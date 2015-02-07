@@ -19,10 +19,14 @@ public class RobotMap {
 	public static RobotDrive DRIVETRAIN_DRIVE;
 	
 	public static Compressor COMPRESSOR;
+	
 	public static DoubleSolenoid GEARSHIFTER_SOLENOID;
 	
 	public static VictorSP LIFT_MOTOR;
 	public static Encoder LIFT_ENCODER;
+
+	public static DoubleSolenoid CLAW_EXTENDERS;
+	public static DoubleSolenoid CLAW_PINS;
 	
 	public static void init() {
 		System.out.println("Initializing RobotMap"); // DEBUG
@@ -46,10 +50,13 @@ public class RobotMap {
 		COMPRESSOR.setClosedLoopControl(true);
 		
 		GEARSHIFTER_SOLENOID = new DoubleSolenoid(1, 0);
-		GEARSHIFTER_SOLENOID.set(DoubleSolenoid.Value.kForward);
+		GEARSHIFTER_SOLENOID.set(Constant.GEARSHIFTER_LOWGEAR_VALUE);
 		
 		LIFT_MOTOR = new VictorSP(8);
 //		LIFT_ENCODER = new Encoder(6, 7); // TODO: Find actual channels for LIFT_ENCODER
+		
+		CLAW_EXTENDERS = new DoubleSolenoid(2, 3);
+		CLAW_PINS = new DoubleSolenoid(6, 7);
 	}
 	
 }

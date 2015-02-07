@@ -9,4 +9,12 @@ public class Constant {
 	public static final DoubleSolenoid.Value GEARSHIFTER_HIGHGEAR_VALUE
 			= DoubleSolenoid.Value.kReverse;
 	
+	public static final DoubleSolenoid.Value CLAW_EXTENDERS_OUT
+			= DoubleSolenoid.Value.kForward;
+	public static final DoubleSolenoid.Value CLAW_EXTENDERS_IN
+			= DoubleSolenoid.Value.kReverse;
+	public static final DoubleSolenoid.Value CLAW_PINS_OUT
+			= DoubleSolenoid.Value.kForward;
+	public static final DoubleSolenoid.Value CLAW_PINS_IN
+			= DoubleSolenoid.Value.kReverse;
 }
