@@ -1,6 +1,7 @@
 package com.spcrobotics;
 
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -24,6 +25,8 @@ public class RobotMap {
 	
 	public static VictorSP LIFT_MOTOR;
 	public static Encoder LIFT_ENCODER;
+	public static DigitalInput LIFT_TOP_SWITCH; 
+	public static DigitalInput LIFT_BOTTOM_SWITCH; 
 
 	public static DoubleSolenoid CLAW_EXTENDERS;
 	public static DoubleSolenoid CLAW_PINS;
@@ -52,8 +55,10 @@ public class RobotMap {
 		GEARSHIFTER_SOLENOID = new DoubleSolenoid(1, 0);
 		GEARSHIFTER_SOLENOID.set(Constant.GEARSHIFTER_LOWGEAR_VALUE);
 		
-		LIFT_MOTOR = new VictorSP(8);
-		LIFT_ENCODER = new Encoder(6, 7); // TODO: Find actual channels for LIFT_ENCODER
+		LIFT_MOTOR = new VictorSP(2);
+//		LIFT_ENCODER = new Encoder(6, 7); // TODO: Find actual channels for LIFT_ENCODER
+		LIFT_TOP_SWITCH = new DigitalInput(6);
+		LIFT_BOTTOM_SWITCH = new DigitalInput(7);
 		
 		CLAW_EXTENDERS = new DoubleSolenoid(2, 3);
 		CLAW_PINS = new DoubleSolenoid(6, 7);
