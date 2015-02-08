@@ -52,7 +52,7 @@ public class RobotMap {
 		GEARSHIFTER_SOLENOID = new DoubleSolenoid(1, 0);
 		GEARSHIFTER_SOLENOID.set(Constant.GEARSHIFTER_LOWGEAR_VALUE);
 		
-		LIFT_MOTOR = new VictorSP(8);
+		LIFT_MOTOR = new VictorSP(2);
 //		LIFT_ENCODER = new Encoder(6, 7); // TODO: Find actual channels for LIFT_ENCODER
 		
 		CLAW_EXTENDERS = new DoubleSolenoid(2, 3);
