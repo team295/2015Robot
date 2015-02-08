@@ -20,4 +20,14 @@ public class Constant {
 			= DoubleSolenoid.Value.kForward;
 	public static final DoubleSolenoid.Value CLAW_PINS_IN
 			= DoubleSolenoid.Value.kReverse;
+	
+	// This list must be sorted from low to high
+	public static final int[] LIFT_SETPOINTS = {
+		2000,
+		5000,
+		10000,
+		15000,
+		20000
+	};
+	
 }

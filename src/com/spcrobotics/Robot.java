@@ -2,7 +2,6 @@ package com.spcrobotics;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,6 +14,7 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain drivetrain;
 	public static GearShifter gearShifter;
 	public static Lift lift;
+	public static PIDLift pidLift;
 	public static Claw claw;
 	public static OI oi;
 	
@@ -28,6 +28,7 @@ public class Robot extends IterativeRobot {
 		drivetrain = new Drivetrain();
 		gearShifter = new GearShifter();
 		lift = new Lift();
+		pidLift = new PIDLift();
 		claw = new Claw();
 		oi = new OI();
 		
