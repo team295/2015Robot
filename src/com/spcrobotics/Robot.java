@@ -16,6 +16,7 @@ public class Robot extends IterativeRobot {
 	public static Lift lift;
 	public static Claw claw;
 	public static OI oi;
+	public static DataLogger dataLogger;
 	
 	Timer timer;
 	
@@ -24,6 +25,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		RobotMap.init();
 		
+		dataLogger = new DataLogger();
 		drivetrain = new Drivetrain();
 		gearShifter = new GearShifter();
 		lift = new Lift();
@@ -45,15 +47,31 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
+		Runnable r = new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				while(true){
+				dataLogger.run();
+				}
+			}
+		};
+		Thread t = new Thread(r);
+		t.start();
+		
 		if (autonomousCommand != null)
 			autonomousCommand.start();
+		dataLogger.sendEvent("#Autonomous Started");
 	}
 
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 	}
 
-	public void teleopInit() {}
+	public void teleopInit() {
+		dataLogger.sendEvent("#Teleop Started");
+	}
 
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();

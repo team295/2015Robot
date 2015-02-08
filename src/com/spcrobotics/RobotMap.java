@@ -1,17 +1,19 @@
 package com.spcrobotics;
 
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.VictorSP;
+import edu.wpi.first.wpilibj.Talon;
 
 public class RobotMap {
 	
-	public static VictorSP DRIVETRAIN_LEFTFRONT_MOTOR;
-	public static VictorSP DRIVETRAIN_LEFTBACK_MOTOR;
-	public static VictorSP DRIVETRAIN_RIGHTFRONT_MOTOR;
-	public static VictorSP DRIVETRAIN_RIGHTBACK_MOTOR;
+	public static Talon DRIVETRAIN_LEFTFRONT_MOTOR;
+	public static Talon DRIVETRAIN_LEFTBACK_MOTOR;
+	public static Talon DRIVETRAIN_RIGHTFRONT_MOTOR;
+	public static Talon DRIVETRAIN_RIGHTBACK_MOTOR;
 
 	public static Encoder DRIVETRAIN_LEFT_ENCODER;
 	public static Encoder DRIVETRAIN_RIGHT_ENCODER;
@@ -22,19 +24,23 @@ public class RobotMap {
 	
 	public static DoubleSolenoid GEARSHIFTER_SOLENOID;
 	
-	public static VictorSP LIFT_MOTOR;
+	public static Talon LIFT_MOTOR;
 	public static Encoder LIFT_ENCODER;
 
 	public static DoubleSolenoid CLAW_EXTENDERS;
 	public static DoubleSolenoid CLAW_PINS;
 	
+	public static BuiltInAccelerometer BUILTINACCELEROMETER;
+	public static PowerDistributionPanel POWERDISTRIBUTIONPANEL;
+	
+	
 	public static void init() {
 		System.out.println("Initializing RobotMap"); // DEBUG
 		
-		DRIVETRAIN_LEFTFRONT_MOTOR =  new VictorSP(3);
-		DRIVETRAIN_LEFTBACK_MOTOR =   new VictorSP(4);
-		DRIVETRAIN_RIGHTFRONT_MOTOR = new VictorSP(0);
-		DRIVETRAIN_RIGHTBACK_MOTOR =  new VictorSP(1);
+		DRIVETRAIN_LEFTFRONT_MOTOR =  new Talon(3);
+		DRIVETRAIN_LEFTBACK_MOTOR =   new Talon(4);
+		DRIVETRAIN_RIGHTFRONT_MOTOR = new Talon(0);
+		DRIVETRAIN_RIGHTBACK_MOTOR =  new Talon(1);
 		
 		DRIVETRAIN_LEFT_ENCODER =  new Encoder(0, 1);
 		DRIVETRAIN_RIGHT_ENCODER = new Encoder(2, 3);
@@ -46,14 +52,16 @@ public class RobotMap {
 				DRIVETRAIN_RIGHTBACK_MOTOR
 		);
 		
+		BUILTINACCELEROMETER = new BuiltInAccelerometer();
+		POWERDISTRIBUTIONPANEL = new PowerDistributionPanel();
 		COMPRESSOR = new Compressor();
 		COMPRESSOR.setClosedLoopControl(true);
 		
 		GEARSHIFTER_SOLENOID = new DoubleSolenoid(1, 0);
 		GEARSHIFTER_SOLENOID.set(Constant.GEARSHIFTER_LOWGEAR_VALUE);
 		
-		LIFT_MOTOR = new VictorSP(8);
-//		LIFT_ENCODER = new Encoder(6, 7); // TODO: Find actual channels for LIFT_ENCODER
+		LIFT_MOTOR = new Talon(8);
+		LIFT_ENCODER = new Encoder(4, 5); // TODO: Find actual channels for LIFT_ENCODER
 		
 		CLAW_EXTENDERS = new DoubleSolenoid(2, 3);
 		CLAW_PINS = new DoubleSolenoid(6, 7);
