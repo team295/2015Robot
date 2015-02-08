@@ -86,6 +86,8 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 		enabledPeriodic();
+		
+		System.out.println("liftpos: " + lift.getPosition());
 	}
 	
 	public static double getTimerValue() {

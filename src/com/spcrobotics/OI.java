@@ -1,8 +1,5 @@
 package com.spcrobotics;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.spcrobotics.commands.*;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -22,6 +19,8 @@ public class OI {
 	public Button buttonClose;
 	public Button buttonPin;
 	public Button buttonUnpin;
+	public Button buttonLiftNext;
+	public Button buttonLiftPrevious;
 	
 	public OI() {
 
@@ -56,6 +55,12 @@ public class OI {
 
 		buttonUnpin = new JoystickButton(joystickOperator, 4);
 		buttonUnpin.whenPressed(new ClawUnpin());
+		
+		buttonLiftNext = new POVButton(joystickOperator, 315, 0, 45);
+		buttonLiftNext.whenPressed(new LiftNextSetpoint());
+		
+		buttonLiftPrevious = new POVButton(joystickOperator, 135, 180, 225);
+		buttonLiftPrevious.whenPressed(new LiftPreviousSetpoint());
 
 	}
 	
@@ -65,24 +70,21 @@ public class OI {
 	}
 	
 	static class POVButton extends Button {
-
 		GenericHID joystick;
-		int[] povs;
+		int[] values;
 		
-		public POVButton(GenericHID joystick, int... povs) {
+		public POVButton(GenericHID joystick, int... values) {
 			this.joystick = joystick;
-			this.povs = povs;
+			this.values = values;
 		}
 		
 		@Override
 		public boolean get() {
-			for (int i : povs) {
-				if (joystick.getPOV(i) != -1) return true; 
+			for (int i : values) {
+				if (joystick.getPOV() == i) return true;
 			}
-			
 			return false;
 		}
-		
 	}
 
 }
