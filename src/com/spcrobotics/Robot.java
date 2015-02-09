@@ -1,96 +1,130 @@
 package com.spcrobotics;
 
-import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import com.spcrobotics.subsystems.*;
+import com.spcrobotics.subsystems.Claw;
+import com.spcrobotics.subsystems.Drivetrain;
+import com.spcrobotics.subsystems.GearShifter;
+import com.spcrobotics.subsystems.Lift;
 import com.spcrobotics.util.EventLogger;
 
-public class Robot extends IterativeRobot {
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
+public class Robot extends IterativeRobot {
+	
+	// Subsystems and operator interface declaration
 	public static Drivetrain drivetrain;
 	public static GearShifter gearShifter;
 	public static Lift lift;
 	public static Claw claw;
 	public static OI oi;
 	
+	// Logger and logger utilities
 	public static EventLogger logger = null;
 	private static Timer sessionTimer = null;
 	private static long sessionIteration = 0;
 	
 	public void robotInit() {
+		// Initialize all robot components
 		RobotMap.init();
 		
+		// Initialize all subsystems and operator interface
 		drivetrain = new Drivetrain();
 		gearShifter = new GearShifter();
 		lift = new Lift();
 		claw = new Claw();
 		oi = new OI();
 		
+		// Start logger implicitly and initialize timer (not started yet)
 		logger = EventLogger.getInstance();
 		sessionTimer = new Timer();
-
 	}
-
+	
+	/**
+	 * Initialization code for enabled modes (anything but disabled: autonomous,
+	 * teleop, and test) should go here.
+	 *
+	 * Users should override this method for initialization code which will be
+	 * called each time the robot enters any enabled mode.
+	 */
 	public void enabledInit() {
 		sessionTimer.start();
 	}
 	
+	// Called during all non-disabled periodic methods
+	/**
+	 * Periodic code for enabled modes (anything but disabled: autonomous,
+	 * teleop, and test) should go here.
+	 *
+	 * Users should override this method for code which will be called
+	 * periodically at a regular rate while the robot is in any enabled mode.
+	 */
 	public void enabledPeriodic() {
 		sessionIteration++;
 	}
-	
+
+	@Override
 	public void disabledInit() {
 		drivetrain.stop();
 		
+		// End the current log and prepare a new one for the next enable
 		logger.endLog();
 		
+		// Reset session stats for logger
 		sessionTimer.reset();
 		sessionIteration = 0;
 	}
-
+	
+	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
-
+	
+	@Override
 	public void autonomousInit() {
 		enabledInit();
 	}
-
+	
+	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		enabledPeriodic();
 	}
-
+	
+	@Override
 	public void teleopInit() {
 		enabledInit();
 	}
-
+	
+	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		enabledPeriodic();
-		
-		SmartDashboard.putNumber("left_encoder_count", RobotMap.DRIVETRAIN_LEFT_ENCODER.get());
-		SmartDashboard.putNumber("right_encoder_count", RobotMap.DRIVETRAIN_RIGHT_ENCODER.get());
 	}
 	
+	@Override
 	public void testInit() {
 		enabledInit();
 	}
-
+	
+	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
 		enabledPeriodic();
 	}
 	
+	/**
+	 * @return session timer's current value (time since enabling) in seconds
+	 */
 	public static double getTimerValue() {
 		return sessionTimer.get();
 	}
 	
+	/**
+	 * @return current session's iteration (number of times periodic method has
+	 *         been called)
+	 */
 	public static long getSessionIteration() {
 		return sessionIteration;
 	}
