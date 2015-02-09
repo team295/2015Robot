@@ -8,12 +8,15 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
 	
+	// Joysticks
 	public Joystick joystickDriver;
 	public Joystick joystickOperator;
 
+	// Gear shifter control buttons
 	public Button buttonHighGear;
 	public Button buttonLowGear;
 	
+	// Claw control buttons
 	public Button buttonOpen;
 	public Button buttonClose;
 	public Button buttonPin;
@@ -54,6 +57,15 @@ public class OI {
 		buttonUnpin.whenPressed(new ClawUnpin());
 	}
 	
+	/**
+	 * Returns 0.0 if {@code input} is between {@code deadband} and {@code -deadband}, otherwise
+	 * returns {@code input}. This is useful for eliminating, for example, near-zero input values
+	 * that should not be fed to speed controllers.
+	 * 
+	 * @param input the raw input to which the deadband will be applied
+	 * @param deadband the deadband boundary
+	 * @return the value of the input with deadband applied
+	 */
 	public static double deadband(double input, double deadband) {
 		if (Math.abs(input) < Math.abs(deadband)) return 0.0;
 		return input;
