@@ -30,8 +30,8 @@ public class RobotMap {
 		DRIVETRAIN_RIGHTFRONT_MOTOR = new VictorSP(0);
 		DRIVETRAIN_RIGHTBACK_MOTOR =  new VictorSP(1);
 		
-		DRIVETRAIN_LEFT_ENCODER =  new Encoder(0, 1);
-		DRIVETRAIN_RIGHT_ENCODER = new Encoder(2, 3);
+		DRIVETRAIN_LEFT_ENCODER =  new Encoder(1, 0);
+		DRIVETRAIN_RIGHT_ENCODER = new Encoder(3, 2);
 		
 		DRIVETRAIN_DRIVE = new RobotDrive(
 				DRIVETRAIN_LEFTFRONT_MOTOR,

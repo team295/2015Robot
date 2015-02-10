@@ -36,7 +36,9 @@ public class DrivetrainPIDSpeed extends PIDSubsystem {
 	}
 	
 	@Override
-	protected void initDefaultCommand() {}
+	protected void initDefaultCommand() {
+		
+	}
 
 	@Override
 	protected double returnPIDInput() {
@@ -45,7 +47,7 @@ public class DrivetrainPIDSpeed extends PIDSubsystem {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		if (reverseOutput) output *= -1;
+//		if (reverseOutput) output *= -1;
 		motorFront.set(output);
 		motorBack.set(output);
 		
@@ -57,6 +59,7 @@ public class DrivetrainPIDSpeed extends PIDSubsystem {
 	
 	public void startSystem() {
 		this.enable();
+		this.setSetpoint(6000);
 	}
 	
 	public void stopSystem() {

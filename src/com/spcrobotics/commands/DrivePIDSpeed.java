@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DrivePIDSpeed extends Command {
 
 	private DrivetrainPIDSpeed pid = null;
-	private double desiredSpeed = 0.0D;
+	private double desiredSpeed =1000.0D;
 	
 	public DrivePIDSpeed(DrivetrainPIDSpeed pid) {
 		super();
@@ -17,6 +17,7 @@ public class DrivePIDSpeed extends Command {
 	
 	@Override
 	protected void initialize() {
+		System.out.println("SetSetpoint to desire speed " + desiredSpeed);
 		pid.setSetpoint(desiredSpeed);
 		pid.startSystem();
 	}
@@ -27,6 +28,7 @@ public class DrivePIDSpeed extends Command {
 			System.out.println("Running PIDDrivetrainSpeed");
 		}
 		
+		if (!pid.getPIDController().isEnable()) pid.getPIDController().enable();
 		pid.setSetpoint(transferInput());
 	}
 

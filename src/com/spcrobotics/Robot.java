@@ -55,14 +55,14 @@ public class Robot extends IterativeRobot {
 		
 		leftSpeedDrive = new DrivetrainPIDSpeed(
 				"leftDriveSpeed",
-				0.0111D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
+				0.00011D, 0.000035D,0.000004D, 100, // TODO Move tolerance to Constants
 				RobotMap.DRIVETRAIN_LEFT_ENCODER,
 				RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR,
 				RobotMap.DRIVETRAIN_LEFTBACK_MOTOR,
 				true);
 		rightSpeedDrive = new DrivetrainPIDSpeed(
 				"rightDriveSpeed",
-				0.008391775D, 0.0D, 0.0D, 500, // TODO Move tolerance to Constants
+				0.000011D, 0.00002D, 0.000002D, 100, // TODO Move tolerance to Constants
 				RobotMap.DRIVETRAIN_RIGHT_ENCODER,
 				RobotMap.DRIVETRAIN_RIGHTFRONT_MOTOR,
 				RobotMap.DRIVETRAIN_RIGHTBACK_MOTOR,
@@ -148,30 +148,42 @@ public class Robot extends IterativeRobot {
 	public void testInit() {
 		enabledInit();
 		
-		leftTeleopDriveCommand = new DrivePIDSpeed(leftSpeedDrive);
-		rightTeleopDriveCommand = new DrivePIDSpeed(rightSpeedDrive);
+//		leftTeleopDriveCommand = new DrivePIDSpeed(leftSpeedDrive);
+//		rightTeleopDriveCommand = new DrivePIDSpeed(rightSpeedDrive);
+////		
+		leftSpeedDrive.startSystem();
+		rightSpeedDrive.startSystem();
 		
-		leftTeleopDriveCommand.start();
-		rightTeleopDriveCommand.start();
+//		leftTeleopDriveCommand.start();
+		System.out.println("Starting leftdrive command");
+//		rightTeleopDriveCommand.start();
 	}
 
 	public void testPeriodic() {
+		Scheduler.getInstance().run();
 		LiveWindow.run();
 		enabledPeriodic();
 		
-		logger.log("encoderLR_counts",
-				String.valueOf(RobotMap.DRIVETRAIN_LEFT_ENCODER.getRate()),
-				String.valueOf(RobotMap.DRIVETRAIN_RIGHT_ENCODER.getRate())
-		);
-		
+//		logger.log("encoderLR_counts",
+//				String.valueOf(RobotMap.DRIVETRAIN_LEFT_ENCODER.getRate()),
+//				String.valueOf(RobotMap.DRIVETRAIN_RIGHT_ENCODER.getRate())
+//		);
+		System.out.println(
+				"Session time = " + sessionTimer.get() 
+				+"Setpoint = " 
+				+ leftSpeedDrive.getSetpoint() 
+				+ "LeftRate = " 
+				+ RobotMap.DRIVETRAIN_LEFT_ENCODER.getRate()
+				+ " RightRate = " 
+				+ RobotMap.DRIVETRAIN_RIGHT_ENCODER.getRate());
 		// Run drivetrain for 6 seconds for data collection
-		if (sessionTimer.get() < 6.0) {
-			leftTeleopDriveCommand.setDesiredSpeed(1000);
-		} else {
-			//driveSpeedCmd.cancel();
-			leftTeleopDriveCommand.setDesiredSpeed(0);
-			leftTeleopDriveCommand.cancel();
-		}
+//		if (sessionTimer.get() < 6.0) {
+//	
+//		} else {
+//			//driveSpeedCmd.cancel();
+//			leftTeleopDriveCommand.setDesiredSpeed(0);
+//			leftTeleopDriveCommand.cancel();
+//		}
 	}
 	
 	public static double getTimerValue() {
