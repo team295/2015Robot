@@ -25,7 +25,7 @@ public class DrivetrainPIDSpeed extends PIDSubsystem {
 		super(name, p, i, d);
 		setAbsoluteTolerance(t);
 		
-		this.disable();
+//		this.disable();
 		getPIDController().setContinuous(false);
 		setOutputRange(-1.0D, 1.0D); // DEBUG
 		

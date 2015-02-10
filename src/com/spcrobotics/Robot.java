@@ -147,6 +147,12 @@ public class Robot extends IterativeRobot {
 	
 	public void testInit() {
 		enabledInit();
+		
+		leftTeleopDriveCommand = new DrivePIDSpeed(leftSpeedDrive);
+		rightTeleopDriveCommand = new DrivePIDSpeed(rightSpeedDrive);
+		
+		leftTeleopDriveCommand.start();
+		rightTeleopDriveCommand.start();
 	}
 
 	public void testPeriodic() {
@@ -160,10 +166,11 @@ public class Robot extends IterativeRobot {
 		
 		// Run drivetrain for 6 seconds for data collection
 		if (sessionTimer.get() < 6.0) {
-			drivetrain.setAll(0.3);
+			leftTeleopDriveCommand.setDesiredSpeed(1000);
 		} else {
 			//driveSpeedCmd.cancel();
-			drivetrain.stop();
+			leftTeleopDriveCommand.setDesiredSpeed(0);
+			leftTeleopDriveCommand.cancel();
 		}
 	}
 	

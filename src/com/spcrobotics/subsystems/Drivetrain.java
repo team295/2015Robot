@@ -9,19 +9,20 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Drivetrain extends Subsystem {
 
-	Talon[] talons;
+	VictorSP[] motors;
 	RobotDrive drive;
 	
 	public Drivetrain() {
-		talons = new Talon[4];
-		talons[0] = RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR;
-		talons[1] = RobotMap.DRIVETRAIN_LEFTBACK_MOTOR;
-		talons[2] = RobotMap.DRIVETRAIN_RIGHTFRONT_MOTOR;
-		talons[3] = RobotMap.DRIVETRAIN_RIGHTBACK_MOTOR;
+		motors = new VictorSP[4];
+		motors[0] = RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR;
+		motors[1] = RobotMap.DRIVETRAIN_LEFTBACK_MOTOR;
+		motors[2] = RobotMap.DRIVETRAIN_RIGHTFRONT_MOTOR;
+		motors[3] = RobotMap.DRIVETRAIN_RIGHTBACK_MOTOR;
 		
 		drive = RobotMap.DRIVETRAIN_DRIVE;
 		System.out.println("Is drive null? " + (drive == null));
@@ -52,7 +53,7 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void setAll(double speed) {
-		for (Talon t : talons) {
+		for (VictorSP t : motors) {
 			t.set(speed);
 		}
 	}
