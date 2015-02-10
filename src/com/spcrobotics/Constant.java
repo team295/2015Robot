@@ -25,4 +25,14 @@ public class Constant {
 	public static final DoubleSolenoid.Value CLAW_PINS_IN =
 			DoubleSolenoid.Value.kReverse;
 
+	public static final int[] LIFT_SETPOINTS = {
+		2000,
+		5000,
+		10000,
+		15000,
+		20000
+	};
+	
+	public static final double LIFT_INPUT_DEADBAND = 0.15;
+
 }
