@@ -33,5 +33,7 @@ public class Constant {
 		15000,
 		20000
 	};
+	
+	public static final double LIFT_INPUT_DEADBAND = 0.15;
 
 }

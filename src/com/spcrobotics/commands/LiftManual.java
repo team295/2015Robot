@@ -1,5 +1,6 @@
 package com.spcrobotics.commands;
 
+import com.spcrobotics.Constant;
 import com.spcrobotics.OI;
 import com.spcrobotics.Robot;
 
@@ -17,7 +18,7 @@ public class LiftManual extends Command {
 	@Override
 	protected void execute() {
 		double rawInput = Robot.oi.joystickOperator.getY() * -1;
-		double adjInput = OI.deadband(rawInput, 0.1);
+		double adjInput = OI.deadband(rawInput, Constant.LIFT_INPUT_DEADBAND);
 		
 		// Prevent going too far up or too far down
 		if ((adjInput > 0 && Robot.lift.isAtTop()) ||
