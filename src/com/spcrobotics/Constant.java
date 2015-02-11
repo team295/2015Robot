@@ -8,7 +8,8 @@ public class Constant {
 	public static final String LOGGER_LOGDIR = "/home/lvuser/_logs/";
 	// Delimiter for fields in EventLogger logs
 	public static final String LOGGER_DELIMITER = "\t";
-
+	// This list must be sorted from low to high
+	
 	// High-gear and low-gear solenoid values for gearshifter
 	public static final DoubleSolenoid.Value GEARSHIFTER_LOWGEAR_VALUE =
 			DoubleSolenoid.Value.kForward;

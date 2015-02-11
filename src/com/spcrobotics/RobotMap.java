@@ -32,6 +32,7 @@ public class RobotMap {
 	public static VictorSP LIFT_MOTOR;
 	public static Encoder LIFT_ENCODER;
 	
+	// Lift limit switches
 	public static DigitalInput LIFT_TOP_SWITCH; 
 	public static DigitalInput LIFT_BOTTOM_SWITCH; 
 

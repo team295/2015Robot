@@ -4,6 +4,7 @@ import com.spcrobotics.subsystems.Claw;
 import com.spcrobotics.subsystems.Drivetrain;
 import com.spcrobotics.subsystems.GearShifter;
 import com.spcrobotics.subsystems.Lift;
+import com.spcrobotics.subsystems.PIDLift;
 import com.spcrobotics.util.EventLogger;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -17,6 +18,7 @@ public class Robot extends IterativeRobot {
 	public static Drivetrain drivetrain;
 	public static GearShifter gearShifter;
 	public static Lift lift;
+	public static PIDLift pidLift;
 	public static Claw claw;
 	public static OI oi;
 	
@@ -33,6 +35,7 @@ public class Robot extends IterativeRobot {
 		drivetrain = new Drivetrain();
 		gearShifter = new GearShifter();
 		lift = new Lift();
+		pidLift = new PIDLift();
 		claw = new Claw();
 		oi = new OI();
 		
@@ -112,6 +115,8 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 		enabledPeriodic();
+		
+		System.out.println("liftpos: " + lift.getPosition());
 	}
 	
 	/**
