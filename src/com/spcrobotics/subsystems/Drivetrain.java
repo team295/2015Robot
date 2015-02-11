@@ -2,8 +2,9 @@ package com.spcrobotics.subsystems;
 
 import com.spcrobotics.Robot;
 import com.spcrobotics.RobotMap;
-import com.spcrobotics.commands.DriveSimpleArcade;
+import com.spcrobotics.commands.DriveSplitArcade;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -27,7 +28,7 @@ public class Drivetrain extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new DriveSimpleArcade());
+		setDefaultCommand(new DriveSplitArcade());
 	}
 	
 	public void tankDrive(Joystick leftJoystick, Joystick rightJoystick) {
@@ -43,6 +44,11 @@ public class Drivetrain extends Subsystem {
 		double mov = movJoystick.getAxis(movAxis);
 		double rot = rotJoystick.getAxis(rotAxis);
 		drive.arcadeDrive(mov, rot);
+	}
+	
+	public void splitArcadeDrive() {
+		drive.arcadeDrive(Robot.oi.joystickDriver.getY(Hand.kLeft), // LJ y-axis
+				Robot.oi.joystickDriver.getRawAxis(4), true); // RJ x-axis
 	}
 	
 	public void stop() {
