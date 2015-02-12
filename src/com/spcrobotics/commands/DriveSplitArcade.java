@@ -15,7 +15,7 @@ public class DriveSplitArcade extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.drivetrain.splitArcadeDrive();
+		Robot.drivetrain.splitArcadeDrive(1.0, 3.0);
 	}
 
 	@Override
