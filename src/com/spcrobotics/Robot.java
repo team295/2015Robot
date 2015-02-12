@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot {
 
 	public void disabledInit() {
 		drivetrain.stop();
-		
+		dataLogger.stopLogger();
 		timer.stop();
 		timer.reset();
 	}
@@ -47,22 +47,11 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
-		Runnable r = new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				while(true){
-				dataLogger.run();
-				}
-			}
-		};
-		Thread t = new Thread(r);
-		t.start();
-		
 		if (autonomousCommand != null)
 			autonomousCommand.start();
-		dataLogger.sendEvent("#Autonomous Started");
+		dataLogger.startLogger();
+		dataLogger.sendEvent("Autonomous Started");
+		
 	}
 
 	public void autonomousPeriodic() {
@@ -70,7 +59,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		dataLogger.sendEvent("#Teleop Started");
+		dataLogger.startLogger();
+		dataLogger.sendEvent("Teleop Started");
 	}
 
 	public void teleopPeriodic() {

@@ -27,32 +27,10 @@ public class DataLogger extends Subsystem{
 	final Double packetInterval = 1.0;
 	Double nextTime = 0.0;
 	Encoder liftEncoder = null;
-	
+	Boolean logging = false;
+	Thread loggerThread = null;
 	public static final int sampleCount = 10;
-//	
-//	double [] xValues;
-//	double [] yValues;
-//	double [] zValues;
-//	
-//	double xSum;
-//	double ySum;
-//	double zSum;
-//	
-//	double xAvg;
-//	double yAvg;
-//	double zAvg;
-//	
-//	double sample;
-//	
-//	double pitch;
-//	double roll;
-//	
-//	int currentSample;
-//	double channelCurrent;
-//	boolean sendAutoMsg = true;
-//	boolean sendTeleMsg = true;
-//	boolean sendTestMsg = true;
-//	
+	
 	public DataLogger(){
 		try
 		{
@@ -63,14 +41,7 @@ public class DataLogger extends Subsystem{
 			address = InetAddress.getByName(ArduinoAddress);
 			theTimer = new Timer(); //what does this mean?
 			theTimer.start();
-//			
-//			xValues = new double[sampleCount];
-//			yValues = new double[sampleCount];
-//			zValues = new double[sampleCount];
-//			xSum = 0.0;
-//			ySum = 0.0;
-//			zSum = 0.0;
-//			currentSample = 0;
+			
 		}
 		catch (Exception ex)
 		{
@@ -80,62 +51,14 @@ public class DataLogger extends Subsystem{
 		
 		
 	}
-//	public void logAutonomous(){
-//		if (sendAutoMsg)
-//    	{
-//    		sendEvent("Autonomous Started");
-//    		sendAutoMsg = false;
-//    	}
-//    	run();
-//    	currentSample++;
-//    	if ((currentSample % 100) == 0)
-//    	{
-//    		sendEvent("Interesting Stuff Happened");
-//    	}
-//	}
-//	
-//	  public void logTeleop() 
-//	    {
-//	    	if (sendTeleMsg)
-//	    	{
-//	    		sendEvent("TeleOp Started");
-//	    		sendTeleMsg = false;
-//	    	}
-//	    	//System.out.println("X = " + myAcc.getX() + ", Y = " + myAcc.getY() +
-//	    	//		", Z = " + myAcc.getZ());
-//	    	sample = myAcc.getX();
-//	    	xSum = xSum - xValues[currentSample] + sample;
-//	    	xValues[currentSample] = sample;
-//	    	xAvg = xSum/sampleCount;
-//	    	
-//	    	sample = myAcc.getY();
-//	    	ySum = ySum - yValues[currentSample] + sample;
-//	    	yValues[currentSample] = sample;
-//	    	yAvg = ySum/sampleCount;
-//	    	
-//	    	sample = myAcc.getZ();
-//	    	zSum = zSum - zValues[currentSample] + sample;
-//	    	zValues[currentSample] = sample;
-//	    	zAvg = zSum/sampleCount;
-//	    	
-//	    	currentSample++;
-//	    	currentSample = currentSample % sampleCount;
-//	    	
-//	    	roll = Math.atan((-1 * xAvg)/zAvg) * 100;
-//	    	pitch = Math.atan(yAvg/(Math.sqrt((xAvg*xAvg) + (zAvg*zAvg)))) * 100;
-//	    	
-//	    	System.out.println("Pitch = " + pitch + ", Roll = " + roll);
-//	    	
-//	    }
-	    
-	
+
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
 		
 	}
 	
-	public void run()
+	public void execute()
 	{
 		if (theTimer.get() >= nextTime)
 		{
@@ -148,13 +71,14 @@ public class DataLogger extends Subsystem{
 			+ ";" + thePDP.getVoltage()
 			+ ";" + liftEncoder.getRaw());
 			
-			System.out.println(thePDP.getCurrent(0)
-					+ ";" + thePDP.getCurrent(1)
-					+ ";" + thePDP.getCurrent(3)
-					+ ";" + thePDP.getCurrent(15)
-					+ ";" + thePDP.getCurrent(2)
-					+ ";" + thePDP.getVoltage()
-					+ ";" + liftEncoder.getRaw());
+			System.out.println("Logging");
+//			System.out.println(thePDP.getCurrent(0)
+//					+ ";" + thePDP.getCurrent(1)
+//					+ ";" + thePDP.getCurrent(3)
+//					+ ";" + thePDP.getCurrent(15)
+//					+ ";" + thePDP.getCurrent(2)
+//					+ ";" + thePDP.getVoltage()
+//					+ ";" + liftEncoder.getRaw());
 			nextTime = theTimer.get() + packetInterval;
 		}
 	}
@@ -178,5 +102,29 @@ public class DataLogger extends Subsystem{
 			e.printStackTrace();
 		}
 	}
+	public void startLogger(){
+		if(logging == false){
+			logging = true;
+			System.out.println("Logging Started");
+			Runnable r = new Runnable() {
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					while(logging){
+						execute();
+					}
+				}
+			};
+			loggerThread = new Thread(r);
+			loggerThread.start();
+		}
+	}
+	public void stopLogger(){
+		if(logging == true){
+			System.out.println("Logging Stopped");
+			logging = false;
+		}
+	}
+	
 
 }
