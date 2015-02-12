@@ -87,12 +87,20 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		enabledInit();
+		
 	}
 	
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		enabledPeriodic();
+		
+		if (sessionTimer.get() > 7.5) {
+			drivetrain.stop();
+		} else {
+			drivetrain.setLeft(-0.3);
+			drivetrain.setRight(0.3);
+		}
 	}
 	
 	@Override
