@@ -32,7 +32,6 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		// Initialize all robot components
 		RobotMap.init();
-
 		// Initialize all subsystems and operator interface
 
 		drivetrain = new Drivetrain();
@@ -108,7 +107,6 @@ public class Robot extends IterativeRobot {
 			drivetrain.setRight(0.3);
 		}
 	}
-
 	@Override
 	public void teleopInit() {
 		enabledInit();
