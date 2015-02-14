@@ -2,14 +2,13 @@ package com.spcrobotics.subsystems;
 
 import com.spcrobotics.Robot;
 import com.spcrobotics.RobotMap;
-import com.spcrobotics.commands.DriveSimpleArcade;
+import com.spcrobotics.commands.DriveSplitArcade;
 
-import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Drivetrain extends Subsystem {
@@ -29,7 +28,7 @@ public class Drivetrain extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new DriveSimpleArcade());
+		setDefaultCommand(new DriveSplitArcade());
 	}
 	
 	public void tankDrive(Joystick leftJoystick, Joystick rightJoystick) {
@@ -50,10 +49,36 @@ public class Drivetrain extends Subsystem {
 		drive.arcadeDrive(mov, rot);
 	}
 	
+	public void splitArcadeDrive() {
+		splitArcadeDrive(1.0, 1.0);
+	}
+	
+	public void splitArcadeDrive(double movSmoothExponent, double rotSmoothExponent) {
+		double rawMov = Robot.oi.joystickDriver.getY(Hand.kLeft); // LJ y-axis
+		double rawRot = Robot.oi.joystickDriver.getRawAxis(4); // RJ x-axis
+		
+		drive.arcadeDrive(
+				Math.copySign(Math.pow(rawMov, movSmoothExponent), rawMov),
+				Math.copySign(Math.pow(rawRot, rotSmoothExponent), rawRot));
+	}
+	
 	public void stop() {
+		setAll(0.0);
+	}
+	
+	public void setAll(double speed) {
 		for (SpeedController sc : motors) {
 			sc.set(0.0);
 		}
 	}
-
+	
+	public void setLeft(double speed) {
+		RobotMap.DRIVETRAIN_LEFTFRONT_MOTOR.set(speed);
+		RobotMap.DRIVETRAIN_LEFTBACK_MOTOR.set(speed);
+	}
+	
+	public void setRight(double speed) {
+		RobotMap.DRIVETRAIN_RIGHTFRONT_MOTOR.set(speed);
+		RobotMap.DRIVETRAIN_RIGHTBACK_MOTOR.set(speed);
+	}
 }
