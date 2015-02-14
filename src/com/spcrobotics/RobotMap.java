@@ -12,10 +12,7 @@ import edu.wpi.first.wpilibj.VictorSP;
 
 public class RobotMap {
 	
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 	// Drivetrain speed controllers
 	public static VictorSP DRIVETRAIN_LEFTFRONT_MOTOR;
 	public static VictorSP DRIVETRAIN_LEFTBACK_MOTOR;
@@ -23,10 +20,7 @@ public class RobotMap {
 	public static VictorSP DRIVETRAIN_RIGHTBACK_MOTOR;
 	
 	// Drivetrain encoders
-<<<<<<< HEAD
-=======
 
->>>>>>> master
 	public static Encoder DRIVETRAIN_LEFT_ENCODER;
 	public static Encoder DRIVETRAIN_RIGHT_ENCODER;
 	
@@ -38,15 +32,9 @@ public class RobotMap {
 	
 	// Gear shifter (drivetrain) solenoids
 	public static DoubleSolenoid GEARSHIFTER_SOLENOID;
-<<<<<<< HEAD
-	// Lift speed controller and encoder
-	public static VictorSP LIFT_MOTOR;
-
-=======
 
 	// Lift speed controller and encoder
 	public static VictorSP LIFT_MOTOR;
->>>>>>> master
 	public static Encoder LIFT_ENCODER;
 	
 	// Lift limit switches

@@ -1,5 +1,6 @@
 package com.spcrobotics;
 
+import com.spcrobotics.commands.AutoPickupAndDrive;
 import com.spcrobotics.subsystems.Claw;
 import com.spcrobotics.subsystems.DataLogger;
 import com.spcrobotics.subsystems.Drivetrain;
@@ -89,23 +90,23 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		enabledInit();
-		
+
 		dataLogger.startLogger();
-		dataLogger.sendEvent("Autonomous Started");
-		
-	}
+		dataLogger.sendEvent("Autonomous Started");	
+		new AutoPickupAndDrive().start();
+}
 	
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		enabledPeriodic();
 		
-		if (sessionTimer.get() > 7.5) {
-			drivetrain.stop();
-		} else {
-			drivetrain.setLeft(-0.3);
-			drivetrain.setRight(0.3);
-		}
+//		if (sessionTimer.get() > 7.5) {
+//			drivetrain.stop();
+//		} else {
+//			drivetrain.setLeft(-0.3);
+//			drivetrain.setRight(0.3);
+//		}
 	}
 	@Override
 	public void teleopInit() {
