@@ -33,8 +33,8 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		// Initialize all robot components
 		RobotMap.init();
-		// Initialize all subsystems and operator interface
 
+		// Initialize all subsystems and operator interface
 		drivetrain = new Drivetrain();
 		gearShifter = new GearShifter();
 		lift = new Lift();
@@ -42,6 +42,7 @@ public class Robot extends IterativeRobot {
 		claw = new Claw();
 		oi = new OI();
 		dataLogger = new DataLogger();
+		
 		// Start logger implicitly and initialize timer (not started yet)
 		logger = EventLogger.getInstance();
 		sessionTimer = new Timer();
@@ -58,7 +59,6 @@ public class Robot extends IterativeRobot {
 		sessionTimer.start();
 	}
 	
-	// Called during all non-disabled periodic methods
 	/**
 	 * Periodic code for enabled modes (anything but disabled: autonomous,
 	 * teleop, and test) should go here.
@@ -90,9 +90,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		enabledInit();
-
 		dataLogger.startLogger();
 		dataLogger.sendEvent("Autonomous Started");	
+
 		new AutoPickupAndDrive().start();
 }
 	
@@ -100,17 +100,12 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		enabledPeriodic();
-		
-//		if (sessionTimer.get() > 7.5) {
-//			drivetrain.stop();
-//		} else {
-//			drivetrain.setLeft(-0.3);
-//			drivetrain.setRight(0.3);
-//		}
 	}
+
 	@Override
 	public void teleopInit() {
 		enabledInit();
+
 		dataLogger.startLogger();
 		dataLogger.sendEvent("Teleop Started");
 	}
