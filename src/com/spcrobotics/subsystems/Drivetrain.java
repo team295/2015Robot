@@ -39,6 +39,9 @@ public class Drivetrain extends Subsystem {
 	public void arcadeDrive() {
 		drive.arcadeDrive(Robot.oi.joystickDriver);
 	}
+	public void fakeTankDrive(Double left, Double right){
+		drive.tankDrive(left, right);
+	}
 	
 	public void arcadeDrive(Joystick movJoystick, AxisType movAxis,
 	                        Joystick rotJoystick, AxisType rotAxis) {

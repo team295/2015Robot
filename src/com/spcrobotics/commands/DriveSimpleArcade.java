@@ -2,6 +2,7 @@ package com.spcrobotics.commands;
 
 import com.spcrobotics.Robot;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.command.Command;
 
 /*
@@ -18,7 +19,7 @@ public class DriveSimpleArcade extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.drivetrain.arcadeDrive();
+		Robot.drivetrain.fakeTankDrive(Robot.oi.joystickDriver.getY(Hand.kLeft), Robot.oi.joystickOperator.getX(Hand.kRight));
 	}
 
 	@Override
