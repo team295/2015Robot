@@ -1,5 +1,6 @@
 package com.spcrobotics;
 
+import com.spcrobotics.commands.AutoPickupAndDrive;
 import com.spcrobotics.subsystems.Claw;
 import com.spcrobotics.subsystems.Drivetrain;
 import com.spcrobotics.subsystems.GearShifter;
@@ -87,7 +88,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		enabledInit();
-		
+		new AutoPickupAndDrive().start();
 	}
 	
 	@Override
@@ -95,12 +96,12 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		enabledPeriodic();
 		
-		if (sessionTimer.get() > 7.5) {
-			drivetrain.stop();
-		} else {
-			drivetrain.setLeft(-0.3);
-			drivetrain.setRight(0.3);
-		}
+//		if (sessionTimer.get() > 7.5) {
+//			drivetrain.stop();
+//		} else {
+//			drivetrain.setLeft(-0.3);
+//			drivetrain.setRight(0.3);
+//		}
 	}
 	
 	@Override
