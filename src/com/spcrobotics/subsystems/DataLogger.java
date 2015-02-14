@@ -62,6 +62,7 @@ public class DataLogger extends Subsystem{
 	{
 		if (theTimer.get() >= nextTime)
 		{
+			
 			sendPacket(
 			thePDP.getCurrent(2)
 			+ ";" + thePDP.getCurrent(3)
@@ -72,13 +73,13 @@ public class DataLogger extends Subsystem{
 			+ ";" + liftEncoder.getRaw());
 			
 			System.out.println("Logging");
-//			System.out.println(thePDP.getCurrent(0)
-//					+ ";" + thePDP.getCurrent(1)
-//					+ ";" + thePDP.getCurrent(3)
-//					+ ";" + thePDP.getCurrent(15)
-//					+ ";" + thePDP.getCurrent(2)
-//					+ ";" + thePDP.getVoltage()
-//					+ ";" + liftEncoder.getRaw());
+			System.out.println(thePDP.getCurrent(0)
+					+ ";" + thePDP.getCurrent(1)
+					+ ";" + thePDP.getCurrent(3)
+					+ ";" + thePDP.getCurrent(15)
+					+ ";" + thePDP.getCurrent(2)
+					+ ";" + thePDP.getVoltage()
+					+ ";" + liftEncoder.getRaw());
 			nextTime = theTimer.get() + packetInterval;
 		}
 	}
