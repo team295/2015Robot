@@ -15,7 +15,8 @@ public class DriveSplitArcade extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.drivetrain.splitArcadeDrive(1.0, 3.0);
+		// Scale rotation output to 60%, and exponentially smooth input (^3.5)
+		Robot.drivetrain.splitArcadeDrive(1.0, 0.6, 1.0, 3.5);
 	}
 
 	@Override

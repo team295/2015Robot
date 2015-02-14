@@ -50,16 +50,21 @@ public class Drivetrain extends Subsystem {
 	}
 	
 	public void splitArcadeDrive() {
-		splitArcadeDrive(1.0, 1.0);
+		splitArcadeDrive(1.0, 1.0, 1.0, 1.0);
 	}
 	
-	public void splitArcadeDrive(double movSmoothExponent, double rotSmoothExponent) {
+	public void splitArcadeDrive(double movScale, double rotScale) {
+		splitArcadeDrive(movScale, rotScale, 1.0, 1.0);
+	}
+	
+	public void splitArcadeDrive(double movScale, double rotScale,
+			double movSmoothExponent, double rotSmoothExponent) {
 		double rawMov = Robot.oi.joystickDriver.getY(Hand.kLeft); // LJ y-axis
 		double rawRot = Robot.oi.joystickDriver.getRawAxis(4); // RJ x-axis
 		
 		drive.arcadeDrive(
-				Math.copySign(Math.pow(rawMov, movSmoothExponent), rawMov),
-				Math.copySign(Math.pow(rawRot, rotSmoothExponent), rawRot));
+				Math.copySign(Math.pow(rawMov, movSmoothExponent) * movScale, rawMov),
+				Math.copySign(Math.pow(rawRot, rotSmoothExponent) * rotScale, rawRot));
 	}
 	
 	public void stop() {
