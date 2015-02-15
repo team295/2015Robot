@@ -1,6 +1,7 @@
 package com.spcrobotics.subsystems;
 
 import com.spcrobotics.Robot;
+import com.spcrobotics.RobotMap;
 import com.spcrobotics.commands.DrivePIDDistance;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -13,6 +14,9 @@ public class DrivetrainPIDDistance extends PIDSubsystem {
 	private SpeedController motorFront;
 	private SpeedController motorBack;
 	private boolean reverseOutput;
+	private double distance = 120.0;
+	//256 encoder count per rev, 5" diameter 
+	private double setpoint = distance/5*Math.PI*256;
 	
 	public DrivetrainPIDDistance(
 			String name,
@@ -38,23 +42,40 @@ public class DrivetrainPIDDistance extends PIDSubsystem {
 
 	@Override
 	protected double returnPIDInput() {
+		if (reverseOutput == true)
+		{
 		return encoder.get();
+		}
+		else
+		{
+		return ((encoder.get() + RobotMap.DRIVETRAIN_LEFT_ENCODER.get()));
+		}
+		
 	}
 
 	@Override
 	protected void usePIDOutput(double output) {
-		if (reverseOutput) output *= -1;
+//		if (reverseOutput) output *= -1;
 		motorFront.set(output);
 		motorBack.set(output);
 		
-		Robot.logger.log(this.getName() + "PID_ios",
-				String.valueOf(encoder.get()),
-				String.valueOf(output),
-				String.valueOf(this.getSetpoint()));
+//		Robot.logger.log(this.getName() + "PID_ios",
+//				String.valueOf(encoder.get()),
+//				String.valueOf(output),
+//				String.valueOf(this.getSetpoint()));
 	}
 	
 	public void startSystem() {
+		if (reverseOutput == true)
+		{
+		this.setSetpoint(setpoint);
 		this.enable();
+		}
+		else
+		{
+		this.setSetpoint(0);
+		this.enable();	
+		}
 	}
 	
 	public void stopSystem() {

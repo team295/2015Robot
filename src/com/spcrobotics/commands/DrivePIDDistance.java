@@ -2,22 +2,26 @@ package com.spcrobotics.commands;
 
 import com.spcrobotics.Robot;
 import com.spcrobotics.RobotMap;
+import com.spcrobotics.subsystems.DrivetrainPIDDistance;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DrivePIDDistance extends Command {
 
-	private final double setpoint;
+	private double distance = 240.0;
+	//256 encoder count per rev, 5" diameter 
+	private double setpoint = distance/5*Math.PI*256;
+	private DrivetrainPIDDistance pid = null;
 	
-	public DrivePIDDistance(double distanceSetpoint) {
+	public DrivePIDDistance(DrivetrainPIDDistance pid) {
 		super();
-		this.setpoint = distanceSetpoint;
+		this.pid = pid;
 	}
 	
 	@Override
 	protected void initialize() {
-		Robot.leftDistDrive.setSetpoint(setpoint);
-		Robot.leftDistDrive.enable();
+		pid.setSetpoint(setpoint);
+		pid.startSystem();
 	}
 
 	@Override
