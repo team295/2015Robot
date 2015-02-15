@@ -31,4 +31,11 @@ public class Lift extends Subsystem {
 	public boolean isAtTop() {return topSwitch.get() == false;}
 	public boolean isAtBottom() {return bottomSwitch.get() == false;}
 	
+	/**
+	 * Resets the encoder count to zero if the lift is at the bottom.
+	 */
+	public void zeroIfBottom() {
+		if (isAtBottom()) {resetEncoder();}
+	}
+	
 }

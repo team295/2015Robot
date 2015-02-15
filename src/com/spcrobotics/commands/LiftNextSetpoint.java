@@ -3,12 +3,10 @@ package com.spcrobotics.commands;
 import com.spcrobotics.Constant;
 import com.spcrobotics.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class LiftNextSetpoint extends Command {
+public class LiftNextSetpoint extends LiftCommand {
 	
 	public LiftNextSetpoint() {
-		requires(Robot.lift);
+		super();
 		requires(Robot.pidLift);
 	}
 
@@ -35,7 +33,7 @@ public class LiftNextSetpoint extends Command {
 	}
 
 	@Override
-	protected void execute() {}
+	protected void executeLift() {}
 	
 	@Override
 	protected boolean isFinished() {

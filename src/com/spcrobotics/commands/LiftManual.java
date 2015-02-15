@@ -4,19 +4,17 @@ import com.spcrobotics.Constant;
 import com.spcrobotics.OI;
 import com.spcrobotics.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class LiftManual extends Command {
+public class LiftManual extends LiftCommand {
 
 	public LiftManual() {
-		requires(Robot.lift);
+		super();
 	}
 	
 	@Override
 	protected void initialize() {}
 
 	@Override
-	protected void execute() {
+	protected void executeLift() {
 		double rawInput = Robot.oi.joystickOperator.getY() * -1;
 		double adjInput = OI.deadband(rawInput, Constant.LIFT_INPUT_DEADBAND);
 		
