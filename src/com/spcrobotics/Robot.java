@@ -30,6 +30,9 @@ public class Robot extends IterativeRobot {
 	private static Timer sessionTimer = null;
 	private static long sessionIteration = 0;
 	
+	// State vars
+	private static boolean compressorWasOn = false;
+	
 	public void robotInit() {
 		// Initialize all robot components
 		RobotMap.init();
@@ -57,6 +60,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void enabledInit() {
 		sessionTimer.start();
+		dataLogger.startLogger();
 	}
 	
 	/**
@@ -68,6 +72,9 @@ public class Robot extends IterativeRobot {
 	 */
 	public void enabledPeriodic() {
 		sessionIteration++;
+		
+		// Periodic logging
+		logCompressorInfo();
 	}
 
 	@Override
@@ -90,8 +97,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		enabledInit();
-		dataLogger.startLogger();
-		dataLogger.sendEvent("Autonomous Started");	
+		logToAll("startAutonomous");
 
 		new AutoPickupAndDrive().start();
 }
@@ -105,9 +111,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		enabledInit();
-
-		dataLogger.startLogger();
-		dataLogger.sendEvent("Teleop Started");
+		logToAll("startTeleop");
 	}
 	
 	@Override
@@ -125,6 +129,7 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 		enabledPeriodic();
+		logToAll("startTest");
 		
 		System.out.println("liftpos: " + lift.getPosition());
 	}
@@ -142,6 +147,33 @@ public class Robot extends IterativeRobot {
 	 */
 	public static long getSessionIteration() {
 		return sessionIteration;
+	}
+	
+	/**
+	 * Logs information to all logging agents. Currently, it logs to the EventLogger and the
+	 * DataLogger.
+	 * 
+	 * @param message the primary message to be logged
+	 * @param tokens additional string(s) that will be logged in the EventLogger
+	 */
+	public static void logToAll(String message, String... tokens) {
+		logger.log(message, tokens);
+		dataLogger.sendEvent(message);
+	}
+	
+	public static void logCompressorInfo() {
+		// Check for changes in compressor state, and log appropriately
+		boolean compressorOn = RobotMap.COMPRESSOR.enabled();
+		if (compressorOn && !compressorWasOn) {
+			logToAll("compressorOn");
+		} else if (!compressorOn && compressorWasOn) {
+			logToAll("compressorOff");
+		}
+		compressorWasOn = compressorOn;
+		
+		// Log compressor current
+		logger.log("compressorCurrent",
+				String.valueOf(RobotMap.COMPRESSOR.getCompressorCurrent()));
 	}
 	
 }

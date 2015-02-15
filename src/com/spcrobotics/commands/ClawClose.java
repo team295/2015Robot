@@ -12,6 +12,7 @@ public class ClawClose extends Command {
 
 	protected void initialize() {
 		Robot.claw.open(false);
+		Robot.logToAll("clawClose");
 	}
 
 	protected void execute() {}

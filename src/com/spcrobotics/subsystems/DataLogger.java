@@ -40,7 +40,7 @@ public class DataLogger extends Subsystem {
 			liftEncoder = RobotMap.LIFT_ENCODER;
 			socket = new DatagramSocket();
 			address = InetAddress.getByName(ArduinoAddress);
-			theTimer = new Timer(); // what does this mean?
+			theTimer = new Timer();
 			theTimer.start();
 		} catch (Exception ex) {
 			System.out.println("Exception in DataLogger.java constructor.\n" + ex.getMessage());
@@ -57,11 +57,6 @@ public class DataLogger extends Subsystem {
 					+ thePDP.getCurrent(15) + ";" + thePDP.getCurrent(0) + ";"
 					+ thePDP.getCurrent(1) + ";" + thePDP.getVoltage() + ";" + liftEncoder.getRaw());
 
-//			System.out.println("Logging");
-//			System.out.println(thePDP.getCurrent(0) + ";" + thePDP.getCurrent(1) + ";"
-//							+ thePDP.getCurrent(3) + ";" + thePDP.getCurrent(15) + ";"
-//							+ thePDP.getCurrent(2) + ";" + thePDP.getVoltage() + ";"
-//							+ liftEncoder.getRaw());
 			nextTime = theTimer.get() + packetInterval;
 		}
 	}
@@ -86,7 +81,6 @@ public class DataLogger extends Subsystem {
 	public void startLogger() {
 		if (logging == false) {
 			logging = true;
-//			System.out.println("Logging Started");
 			Runnable r = new Runnable() {
 				@Override
 				public void run() {
@@ -102,10 +96,8 @@ public class DataLogger extends Subsystem {
 
 	public void stopLogger() {
 		if (logging == true) {
-//			System.out.println("Logging Stopped");
 			logging = false;
 		}
 	}
-
 
 }
