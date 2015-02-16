@@ -1,5 +1,8 @@
 package com.spcrobotics.subsystems;
 
+import com.spcrobotics.Constant;
+import com.spcrobotics.OI;
+import com.spcrobotics.Robot;
 import com.spcrobotics.RobotMap;
 import com.spcrobotics.commands.LiftManual;
 
@@ -30,6 +33,15 @@ public class Lift extends Subsystem {
 	
 	public boolean isAtTop() {return topSwitch.get() == false;}
 	public boolean isAtBottom() {return bottomSwitch.get() == false;}
+	
+	/**
+	 * @return input for lift control, with deadband applied, with positive values indicating that
+	 *         the lift should rise
+	 */
+	public double getLiftInput() {
+		double rawInput = Robot.oi.joystickOperator.getY() * -1;
+		return OI.deadband(rawInput, Constant.LIFT_INPUT_DEADBAND);
+	}
 	
 	/**
 	 * Resets the encoder count to zero if the lift is at the bottom.

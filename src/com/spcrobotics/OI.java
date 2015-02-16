@@ -22,7 +22,7 @@ public class OI {
 	public Button buttonClose;
 	public Button buttonFullOpen;
 	public Button buttonHalfOpen;
-	public Button buttonFullClose;
+	public Button buttonLiftLowerSetpoint;
 	public Button buttonLiftNext;
 	public Button buttonLiftPrevious;
 
@@ -60,14 +60,14 @@ public class OI {
 		buttonHalfOpen = new JoystickButton(joystickOperator, 5); // LB
 		buttonHalfOpen.whenPressed(new ClawHalfOpen());
 
-		buttonFullClose = new JoystickButton(joystickOperator, 7); // BACK
-		buttonFullClose.whenPressed(new ClawFullClose());
+		buttonLiftLowerSetpoint = new JoystickButton(joystickOperator, 7); // BACK
+		buttonLiftLowerSetpoint.whenPressed(new LiftGoToLowerSetpoint());
 
-		buttonLiftNext = new POVButton(joystickOperator, 315, 0, 45); // POV NW, N, NE
-		buttonLiftNext.whenPressed(new LiftNextSetpoint());
-
-		buttonLiftPrevious = new POVButton(joystickOperator, 135, 180, 225); // POV SE, S, SW
-		buttonLiftPrevious.whenPressed(new LiftPreviousSetpoint());
+//		buttonLiftNext = new POVButton(joystickOperator, 315, 0, 45); // POV NW, N, NE
+//		buttonLiftNext.whenPressed(new LiftNextSetpoint());
+//
+//		buttonLiftPrevious = new POVButton(joystickOperator, 135, 180, 225); // POV SE, S, SW
+//		buttonLiftPrevious.whenPressed(new LiftPreviousSetpoint());
 
 	}
 

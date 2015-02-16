@@ -130,8 +130,6 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 		enabledPeriodic();
 		logToAll("startTest");
-		
-		System.out.println("liftpos: " + lift.getPosition());
 	}
 	
 	/**
