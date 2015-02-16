@@ -56,6 +56,10 @@ public class Drivetrain extends Subsystem {
 	public void splitArcadeDrive(double movScale, double rotScale) {
 		double rawMov = Robot.oi.joystickDriver.getY(Hand.kLeft); // LJ y-axis
 		double rawRot = Robot.oi.joystickDriver.getRawAxis(4); // RJ x-axis
+		
+		// If left trigger is held, halve the rotation input for fine turning
+		if (Robot.oi.joystickDriver.getRawAxis(2) > 0.5) {rawRot *= 0.5;}
+		
 		drive.arcadeDrive(rawMov * movScale, rawRot * rotScale);
 	}
 	
