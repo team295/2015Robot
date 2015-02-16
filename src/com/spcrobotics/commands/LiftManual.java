@@ -16,8 +16,8 @@ public class LiftManual extends LiftCommand {
 		double input = Robot.lift.getLiftInput();
 
 		// Prevent going too far up or too far down
-		if ((input > 0 && Robot.lift.isAtTop()) ||
-			(input < 0 && Robot.lift.isAtBottom())) {
+		if ((Robot.lift.isAtTop() && input > 0) ||
+			(Robot.lift.isAtBottom() && input < 0 )) {
 			Robot.lift.setSpeed(0.0);
 		} else {
 			Robot.lift.setSpeed(input);
