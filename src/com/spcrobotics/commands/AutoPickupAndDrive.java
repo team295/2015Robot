@@ -15,8 +15,8 @@ public class AutoPickupAndDrive extends CommandGroup {
 	final double LIFT_TIME = 1.5;
 	
 	// SpeedController speeds for timed drivetrain (these are for forward)
-	final double DRIVE_LEFT_FORWARD_SPEED = -0.3;
-	final double DRIVE_RIGHT_FORWARD_SPEED = 0.322;
+	final double DRIVE_LEFT_FORWARD_SPEED = -0.4;
+	final double DRIVE_RIGHT_FORWARD_SPEED = 0.428;
 	
 	public AutoPickupAndDrive() {
 		addSequential(new ClawFullClose());
@@ -32,7 +32,7 @@ public class AutoPickupAndDrive extends CommandGroup {
 		});
 		
 		// Move backwards
-		addSequential(new SimpleTimedCommand(8.0) {
+		addSequential(new SimpleTimedCommand(5.5) {
 			@Override
 			protected void execute() {
 				Robot.drivetrain.setLeft(-1 * DRIVE_LEFT_FORWARD_SPEED);
@@ -44,7 +44,7 @@ public class AutoPickupAndDrive extends CommandGroup {
 		});
 
 		// Turn right in place
-		addSequential(new SimpleTimedCommand(2.0) {
+		addSequential(new SimpleTimedCommand(1.5) {
 			@Override
 			protected void execute() {
 				Robot.drivetrain.setLeft(DRIVE_LEFT_FORWARD_SPEED);
