@@ -20,6 +20,7 @@ public class AutoPickupAndDrive extends CommandGroup {
 	
 	public AutoPickupAndDrive() {
 		addSequential(new ClawFullClose());
+		addSequential(new LiftGoToLowerSetpoint());
 		addSequential(new WaitCommand(1.0));
 
 		// Raise lift
@@ -55,19 +56,19 @@ public class AutoPickupAndDrive extends CommandGroup {
 			protected void end() {Robot.drivetrain.stop();}
 		});
 		
-		// Lower lift
-		addSequential(new SimpleTimedCommand(LIFT_TIME) {
-			// Only continue going down if we don't hit bottom
-			@Override
-			protected void execute() {
-				if (Robot.lift.isAtBottom()) {end();}
-				else {RobotMap.LIFT_MOTOR.set(-1 * LIFT_MOTOR_UP_SPEED);}
-			}
-			
-			@Override
-			protected void end() {RobotMap.LIFT_MOTOR.set(0.0);}
-		});
-		
-		addSequential(new ClawFullOpen());
+//		// Lower lift
+//		addSequential(new SimpleTimedCommand(LIFT_TIME) {
+//			// Only continue going down if we don't hit bottom
+//			@Override
+//			protected void execute() {
+//				if (Robot.lift.isAtBottom()) {end();}
+//				else {RobotMap.LIFT_MOTOR.set(-1 * LIFT_MOTOR_UP_SPEED);}
+//			}
+//			
+//			@Override
+//			protected void end() {RobotMap.LIFT_MOTOR.set(0.0);}
+//		});
+//		
+//		addSequential(new ClawFullOpen());
 	}
 }
