@@ -18,7 +18,8 @@ public class DataLogger extends Subsystem {
 	public static final int sampleCount = 10;
 	final String ArduinoAddress = "10.2.95.6";
 	final int PORT = 5810;
-	final Double packetInterval = 1.0;
+//	final Double packetInterval = 1.0;
+	final long executeInterval = 1000;
 	
 	PowerDistributionPanel thePDP = null;
 	BuiltInAccelerometer myAcc = null;
@@ -52,13 +53,13 @@ public class DataLogger extends Subsystem {
 	protected void initDefaultCommand() {}
 
 	public void execute() {
-		if (theTimer.get() >= nextTime) {
+//		if (theTimer.get() >= nextTime) {
 			sendPacket(thePDP.getCurrent(2) + ";" + thePDP.getCurrent(3) + ";"
 					+ thePDP.getCurrent(15) + ";" + thePDP.getCurrent(0) + ";"
 					+ thePDP.getCurrent(1) + ";" + thePDP.getVoltage() + ";" + liftEncoder.getRaw());
 
-			nextTime = theTimer.get() + packetInterval;
-		}
+//			nextTime = theTimer.get() + packetInterval;
+//		}
 	}
 
 	public void sendEvent(String theString) {
@@ -81,16 +82,16 @@ public class DataLogger extends Subsystem {
 	public void startLogger() {
 		if (logging == false) {
 			logging = true;
-			Runnable r = new Runnable() {
+			new Thread(new Runnable() {
 				@Override
 				public void run() {
 					while (logging) {
 						execute();
+						try {Thread.sleep(executeInterval);}
+						catch (InterruptedException e) {e.printStackTrace();}
 					}
 				}
-			};
-			loggerThread = new Thread(r);
-			loggerThread.start();
+			}).start();
 		}
 	}
 
