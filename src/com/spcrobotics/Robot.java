@@ -1,6 +1,7 @@
 package com.spcrobotics;
 
 import com.spcrobotics.commands.AutoPickupAndDrive;
+import com.spcrobotics.commands.AutoWith254;
 import com.spcrobotics.subsystems.Claw;
 import com.spcrobotics.subsystems.DataLogger;
 import com.spcrobotics.subsystems.Drivetrain;
@@ -105,7 +106,7 @@ public class Robot extends IterativeRobot {
 		enabledInit();
 		logToAll("startAutonomous");
 
-		new AutoPickupAndDrive().start();
+		new AutoWith254().start();
 }
 	
 	@Override
