@@ -10,7 +10,6 @@ import com.spcrobotics.subsystems.Lift;
 import com.spcrobotics.subsystems.PIDLift;
 import com.spcrobotics.util.EventLogger;
 
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -32,9 +31,6 @@ public class Robot extends IterativeRobot {
 	private static Timer sessionTimer = null;
 	private static long sessionIteration = 0;
 	
-//	private static DigitalOutput debugOut = null; // DEBUG
-//	private static boolean debugToggler = false; // DEBUG
-	
 	// State vars
 	private static boolean compressorWasOn = false;
 	
@@ -54,8 +50,6 @@ public class Robot extends IterativeRobot {
 		// Start logger implicitly and initialize timer (not started yet)
 		logger = EventLogger.getInstance();
 		sessionTimer = new Timer();
-		
-//		debugOut = new DigitalOutput(10); // DEBUG
 	}
 	
 	/**
@@ -87,9 +81,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit() {
 		drivetrain.stop();
+
 		// End the current log and prepare a new one for the next enable
 		logger.endLog();
 		dataLogger.stopLogger();
+		
 		// Reset session stats for logger
 		sessionTimer.reset();
 		sessionIteration = 0;
@@ -106,7 +102,7 @@ public class Robot extends IterativeRobot {
 		enabledInit();
 		logToAll("startAutonomous");
 
-		new AutoWith254().start();
+		new AutoPickupAndDrive().start();
 }
 	
 	@Override
@@ -125,9 +121,6 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		enabledPeriodic();
-		
-//		debugOut.set(debugToggler); // DEBUG
-//		debugToggler = !debugToggler;
 	}
 	
 	@Override
