@@ -20,7 +20,7 @@ public class AutoPickupAndDrive extends CommandGroup {
 	
 	public AutoPickupAndDrive() {
 		addSequential(new ClawFullClose());
-		addSequential(new LiftGoToLowerSetpoint());
+//		addSequential(new LiftGoToLowerSetpoint());
 		addSequential(new WaitCommand(1.0));
 
 		// Raise lift
@@ -33,7 +33,7 @@ public class AutoPickupAndDrive extends CommandGroup {
 		});
 		
 		// Move backwards
-		addSequential(new SimpleTimedCommand(5.5) {
+		addSequential(new SimpleTimedCommand(4.5) {
 			@Override
 			protected void execute() {
 				Robot.drivetrain.setLeft(-1 * DRIVE_LEFT_FORWARD_SPEED);
